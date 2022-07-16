@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 
 // 초심자의 회문검사 
-public class SWEA_1986 {
+public class SWEA_1989 {
 	public static int palindrome(String str) {
 		StringBuffer strLower = new StringBuffer(str.toLowerCase());
 		String reversed = strLower.reverse().toString();
