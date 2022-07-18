@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-// 서랍의 비밀번호
+// 서랍의 비밀번호 
 public class SWEA_2043 {
 
 	public static void main(String[] args) {
