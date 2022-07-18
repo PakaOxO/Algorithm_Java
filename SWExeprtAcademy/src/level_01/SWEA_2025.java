@@ -1,3 +1,4 @@
+package level_01;
 import java.util.Scanner;
 
 // N줄 덧셈

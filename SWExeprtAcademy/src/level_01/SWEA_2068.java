@@ -1,22 +1,23 @@
 package level_01;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-// 홀수만 더하기 
-public class SWEA_2072 {
+// 최대수 구하기
+public class SWEA_2068 {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		int testCnt = Integer.parseInt(br.readLine());
 		for (int i=0; i<testCnt; i++) {
-			String[] arr = br.readLine().split(" ");
-			int sum = 0;
-			for (int j=0; j<10; j++) {
-				int num = Integer.parseInt(arr[j]);
-				if (num % 2 != 0) sum += num;
+			String[] input = br.readLine().split(" ");
+			int max = Integer.MIN_VALUE;
+			for (String el:input) {
+				int num = Integer.parseInt(el);
+				max = Math.max(max, num);
 			}
-			System.out.printf("#%d %d\n", i + 1, sum);
+			System.out.printf("#%d %d\n", i + 1, max);
 		}
 	}
 

@@ -1,3 +1,4 @@
+package level_01;
 import java.util.Scanner;
 
 // 서랍의 비밀번호 
