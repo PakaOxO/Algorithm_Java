@@ -1,22 +1,27 @@
-class A {
-    public void x() {
-        System.out.println("I'm public method x");
-    }
-    
-    private void y() {
-        System.out.println("I'm private method y");
-    }
-    
-    public void z() {
-        this.y();
-    }
-}
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class MyTest {
+	public static class MyClass {}
+	
     public static void main(String[] args) {
-        A a = new A();
-        a.x();
-        // a.y(); // 이 코드는 에러가 발생한다.
-        a.z();
+    	MyClass c1 = new MyClass();
+    	MyClass c2 = new MyClass();
+    	MyClass c3 = c2;
+    	
+    	System.out.println(c1 == c2);
+    	System.out.println(c1 == c3);
+    	System.out.println(c2 == c3);
+    	System.out.println(c1.equals(c2));
+    	System.out.println(c1.equals(c3));
+    	System.out.println(c2.equals(c3));
+    	
+    	System.out.println(c1.hashCode());
+    	System.out.println(c2.hashCode());
+    	System.out.println(c3.hashCode());
     }
 }
