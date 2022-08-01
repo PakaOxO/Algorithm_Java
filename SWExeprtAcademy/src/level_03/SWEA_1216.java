@@ -14,7 +14,7 @@ public class SWEA_1216 {
 			for (int j=0; j<N-len+1; j++) {
 				boolean isPalindrome = true;
 				for (int k=0; k<len; k++) {
-					if (j+k == j+len-k-1) continue;
+					if (j+k == j+len-k-1) break;
 					if (board[i][j+k] != board[i][j+len-k-1]) {
 						isPalindrome = false;
 						break;
@@ -34,7 +34,7 @@ public class SWEA_1216 {
 			for (int j=0; j<N-len+1; j++) {
 				boolean isPalindrome = true;
 				for (int k=0; k<len; k++) {
-					if (j+k == j+len-k-1) continue;
+					if (j+k == j+len-k-1) break;
 					if (board[j+k][i] != board[j+len-k-1][i]) {
 						isPalindrome = false;
 						break;
