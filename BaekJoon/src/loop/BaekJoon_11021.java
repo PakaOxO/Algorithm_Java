@@ -2,16 +2,18 @@ package loop;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
-// 기찍 N
-public class BaekJoon_2742 {
+// A + B - 7
+public class BaekJoon_11021 {
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int N = Integer.parseInt(br.readLine());
 		StringBuilder sb = new StringBuilder();
-		for (int i=N; i>=1; i--) {
-			sb.append(i + "\n");
+		int T = Integer.parseInt(br.readLine());
+		for (int i=1; i<=T; i++) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			sb.append("Case #" + i + ": " + (Integer.parseInt(st.nextToken()) + Integer.parseInt(st.nextToken())) + "\n");
 		}
 		System.out.println(sb.toString().trim());
 		br.close();
