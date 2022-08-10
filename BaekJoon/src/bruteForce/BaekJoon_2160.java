@@ -3,6 +3,7 @@ package bruteForce;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+// 그림 비교
 public class BaekJoon_2160 {
 	static int cCnt = 5, rCnt = 7;
 	static int[][] cntDiff;
