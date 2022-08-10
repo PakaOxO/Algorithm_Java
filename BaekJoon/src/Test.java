@@ -1,43 +1,33 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.StringTokenizer;
 
-// 가장 큰 금민수 다시 풀기
 public class Test {
-	static String str;
-	static StringBuilder sb = new StringBuilder();
-	static boolean isGetNumber = false;
-	static List<Integer> list = new ArrayList<>();
-	
-	static void getNumberList(int N) {
-		if (N > str.length()) return;
-		if (sb.length() > 0) {
-			if (Integer.parseInt(sb.toString()) <= Integer.parseInt(str)) {
-				list.add(Integer.parseInt(sb.toString()));
-			}
-		}
-		
-		sb.append("7");
-		getNumberList(N + 1);
-		sb.deleteCharAt(N);
-		
-		sb.append("4");
-		getNumberList(N + 1);
-		sb.deleteCharAt(N);
-	}
-	
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		str = br.readLine();
-		getNumberList(0);
-		int answer = 0;
-		for (int i=0; i<list.size(); i++) {
-			if (list.get(i) > answer) answer = list.get(i);
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
+		int[] moveBook = new int[N]; // 입력 배열
+		st = new StringTokenizer(br.readLine());
+		for (int i = 0; i < N; i++) {
+			moveBook[i] = Integer.parseInt(st.nextToken());
 		}
-		System.out.println(answer);
 		br.close();
+		
+		int capacity = M; // 용량
+		int boxCount = 1; // 처음 시작 상자 개수
+		for(int i = 0; i < N; i++) {
+			if(capacity - moveBook[i] < 0) { // i번째 책의 무게가 남은 용량보다 크다면 박스를 증가시키고 용량을 초기화한다.
+				capacity = M;
+				boxCount++;
+			}
+			capacity -= moveBook[i]; // i번째 책을  넣는다.
+		}
+		if(N == 0) boxCount = 0; // N이 0일때는 0으로 바꿔준다.
+		System.out.println(boxCount);
 	}
 
 }
