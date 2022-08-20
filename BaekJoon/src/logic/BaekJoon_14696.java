@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-// µüÁö³îÀÌ
+// ë”±ì§€ë†€ì´
 public class BaekJoon_14696 {
 	static int[] cntA;
 	static int[] cntB;

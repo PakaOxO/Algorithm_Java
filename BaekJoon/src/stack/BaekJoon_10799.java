@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-// ¼è¸·´ë±â
+// ì‡ ë§‰ëŒ€ê¸°
 public class BaekJoon_10799 {
 	static Stack<Integer> pos = new Stack<>();
 	static Stack<Character> stack = new Stack<>();
