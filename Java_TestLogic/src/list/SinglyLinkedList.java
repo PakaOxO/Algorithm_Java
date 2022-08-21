@@ -1,170 +1,161 @@
 package list;
 
-class Node<E> {
-	public E data;
-	public Node<E> next;
-	
-	public Node(E data) {
-		this.data = data;
-	}
-}
+//class Node<E> {
+//	E data;
+//	Node<E> next;
+//	
+//	Node(E data) {
+//		this.data = data;
+//	}
+//}
 
-class SLL<E> {
-	private Node<E> head;
+public class SinglyLinkedList<E> {
 	private int size;
+	private Node<E> head;
 	
-	SLL() {
+	SinglyLinkedList() {
 		this.size = 0;
 	}
 	
-	/* 비어있는지 확인 */
+	/* 조회 */
 	boolean isEmpty() {
-		return size == 0;
+		return this.size == 0;
 	}
 	
-	/* 조회 */
-	/* 전체 리스트 print */
-	void printSLL() {
+	int size() {
+		return this.size;
+	}
+	
+	E getData(int idx) {
+		if (isEmpty()) return null;
+		if (idx < 0 || idx >= this.size) return null;
+		int i = 0;
+		Node<E> curr = head;
+		while (i < idx) {
+			curr = curr.next;
+			i++;
+		}
+		return curr.data;
+	}
+	
+	void printList() {
 		if (isEmpty()) {
-			System.out.println("비어있습니다.");
+			System.out.println("[]");
 			return;
 		}
 		StringBuilder sb = new StringBuilder();
-		Node<E> curr = head;
+		sb.append("[ ");
+		Node<E> curr = this.head;
 		while (curr != null) {
 			sb.append(curr.data);
+			if (curr.next != null) sb.append(", ");
 			curr = curr.next;
-			if (curr != null) sb.append(" ");
 		}
+		sb.append(" ]");
 		System.out.println(sb);
 	}
 	
-	/* 처음 노드 읽어오기 */
-	E getFirstData() {
-		if (isEmpty()) return null;
-		return head.data;
-	}
-	
-	/* 마지막 노드 읽어오기 */
-	E getLastData() {
-		if (isEmpty()) return null;
-		Node<E> curr = head;
-		for (int i=0; i<size-1; i++) {
-			curr = curr.next;
-		}
-		return curr.data;
-	}
-	
-	/* 중간 노드 읽어오기 */
-	E getData(int idx) {
-		if (isEmpty() || idx < 0 || idx >= size) return null;
-		if (size == 1) return head.data;
-		Node<E> curr = head;
-		for (int i=0; i<idx; i++) {
-			curr = curr.next;
-		}
-		return curr.data;
-	}
-	
 	/* 추가 */
-	/* 맨 앞에 추가 */
 	void addAtFirst(E data) {
 		Node<E> node = new Node<>(data);
 		if (isEmpty()) {
-			head = node;
-		} else {
-			node.next = head;
-			head = node;
+			this.head = node;
+			this.size++;
+			return;
 		}
-		size++;
+		node.next = this.head;
+		this.head = node;
+		this.size++;
 	}
 	
-	/* 맨 뒤에 추가 */
 	void addAtLast(E data) {
 		Node<E> node = new Node<>(data);
 		if (isEmpty()) {
-			head = node;
-		} else {
-			Node<E> curr = head;
-			for (int i=0; i<size-1; i++) {
-				curr = curr.next;
-			}
-			curr.next = node;
-		}
-		size++;
-	}
-	
-	/* 중간에 추가 */
-	void add(int idx, E data) {
-		if (idx < 0 || idx > size) return;
-		
-		if (idx == 0) {
-			addAtFirst(data);
+			this.head = node;
+			this.size++;
 			return;
 		}
-		if (idx == size) {
-			addAtLast(data);
-			return;
-		}
-		
-		Node<E> curr = head;
-		for (int i=0; i<idx-1; i++) {
+		Node<E> curr = this.head;
+		while (curr.next != null) {
 			curr = curr.next;
 		}
-		Node<E> node = new Node<>(data);
-		node.next = curr.next;
 		curr.next = node;
 		size++;
 	}
 	
-	/* 삭제 */
-	/* 맨 앞 삭제 */
-	E remove() {
-		E data = head.data;
-		head = head.next;
-		size--;
-		return data;
+	void add(E data, int idx) {
+		if (idx < 0) return; 
+		if (idx == 0) {
+			addAtFirst(data);
+			return;
+		}
+		if (idx >= this.size) {
+			addAtLast(data);
+			return;
+		}
+		Node<E> node = new Node<>(data);
+		if (isEmpty()) {
+			this.head = node;
+			this.size++;
+			return;
+		}
+		
+		Node<E> prev = this.head;
+		int i = 1;
+		while (i < idx) {
+			prev = prev.next;
+			i++;
+		}
+		node.next = prev.next;
+		prev.next = node;
+		this.size++;
 	}
 	
-	/* 중간 요소 삭제 */
-	E remove(int idx) {
-		if (idx < 0 || idx >= size) return null;
-		if (idx == 0) {
-			return remove();
+	/* 삭제 */
+	void removeHead() {
+		if (isEmpty()) return;
+		if (this.size == 1) {
+			this.head = null;
+			size--;
+			return;
 		}
-		Node<E> prev = head;
-		for (int i=0; i<idx-1; i++) {
+		this.head = this.head.next;
+		size--;
+	}
+	
+	void removeTail() {
+		if (isEmpty()) return;
+		if (this.size == 1) {
+			this.head = null;
+			size--;
+			return;
+		}
+		Node<E> prev = this.head;
+		while (prev.next.next != null) {
 			prev = prev.next;
 		}
-		E data = prev.next.data;
-		prev.next = prev.next.next;
+		prev.next = null;
 		size--;
-		return data;
 	}
-}
-
-public class SinglyLinkedList {
-
-	public static void main(String[] args) {
-		SLL<String> sll = new SLL<>();
-		sll.printSLL();
-		sll.addAtFirst("홍길동");
-		sll.printSLL();
-		sll.addAtFirst("이순신");
-		sll.printSLL();
-		sll.addAtLast("강감찬");
-		sll.printSLL();
-		System.out.println(sll.getFirstData());
-		System.out.println(sll.getLastData());
-		System.out.println(sll.getData(1));
-		sll.printSLL();
-		sll.add(0, "이성계");
-		sll.add(2, "세종대왕");
-		sll.printSLL();
-		sll.remove();
-		sll.printSLL();
-		sll.remove(3);
-		sll.printSLL();
+	
+	void remove(int idx) {
+		if (isEmpty()) return;
+		if (idx == 0) {
+			removeHead();
+			return;
+		}
+		if (idx >= this.size()) {
+			removeTail();
+			return;
+		}
+		
+		Node<E> prev = this.head;
+		int i = 1;
+		while (i < idx) {
+			prev = prev.next;
+			i++;
+		}
+		prev.next = prev.next.next;
+		this.size--;
 	}
-
 }
