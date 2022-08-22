@@ -16,17 +16,15 @@ class BubbleSort {
 		int N = arr.length;
 		this.arr = arr;
 		
-		for (int i=0; i<N-1; i++) {
+		for (int i=N-1; i>0; i--) {
 			if (type == 0) {
-				for (int j=0; j<N-1-i; j++) {					
+				for (int j=0; j<i; j++) {					
 					if (this.arr[j] > this.arr[j+1]) swap(j, j+1);
 				}
 			} else if (type == 1) {
-				for (int j=0; j<N-1-i; j++) {					
+				for (int j=0; j<i; j++) {					
 					if (this.arr[j] < this.arr[j+1]) swap(j, j+1);
 				}
-			} else {
-				System.out.println("잘못된 입력");
 			}
 		}
 		return this.arr;
@@ -40,9 +38,9 @@ public class BubbleSort_Test {
 		int[] arr2 = {1, 4, 2};
 		BubbleSort b = new BubbleSort();
 		System.out.println(Arrays.toString(arr));
-		System.out.println(Arrays.toString(b.sort(arr, 1)));
+		System.out.println(Arrays.toString(b.sort(arr, 0)));
 		System.out.println(Arrays.toString(arr2));
-		System.out.println(Arrays.toString(b.sort(arr2, 1)));
+		System.out.println(Arrays.toString(b.sort(arr2, 0)));
 	}
 
 }
