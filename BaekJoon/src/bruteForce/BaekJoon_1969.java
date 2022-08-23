@@ -7,50 +7,38 @@ import java.util.StringTokenizer;
 // DNA
 public class BaekJoon_1969 {
 	static int N, M;
-	static String[] list;
 	static char[] data = { 'A', 'C', 'G', 'T' };
-	static int minDist;
-	static String answer;
-	
-	static void getDNA(String dna, int len) {
-		if (len == M) {
-			int dist = getDistance(dna, M);
-			if (dist < minDist) {
-				minDist = dist;
-				answer = dna;
-			}
-			return;
-		}
-		for (int i=0; i<data.length; i++) {
-			getDNA(dna + data[i], len + 1);
-		}
-	}
-	
-	static int getDistance(String target, int len) {
-		int cnt = 0;
-		for (int i=0; i<N; i++) {
-			for (int j = 0; j<len; j++) {
-				if (list[i].charAt(j) != target.charAt(j)) cnt++;
-			}
-		}
-		return cnt;
-	}
+	static int[][] cnt;
+
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
-		list = new String[N];
+		cnt = new int[M][4];
 		for (int i=0; i<N; i++) {
-			list[i] = br.readLine();
+			String dna = br.readLine();
+			for (int j=0; j<M; j++) {
+				char c = dna.charAt(j);
+				if (c == 'A') cnt[j][0]++;
+				else if (c == 'C') cnt[j][1]++;
+				else if (c == 'G') cnt[j][2]++;
+				else if (c == 'T') cnt[j][3]++;
+			}
 		}
-		
-		minDist = Integer.MAX_VALUE;
-		getDNA("", 0);
-        StringBuilder sb = new StringBuilder();
-        sb.append(answer).append("\n").append(minDist);
-		System.out.println(sb);
+		StringBuilder answer = new StringBuilder();
+		int dist = 0;
+		for (int i=0; i<M; i++) {
+			int maxIdx = 0;
+			for (int j=1; j<4; j++) {
+				if (cnt[i][j] > cnt[i][maxIdx]) maxIdx = j;
+			}
+			answer.append(data[maxIdx]);
+			dist += (N - cnt[i][maxIdx]);
+		}
+		answer.append("\n").append(dist);
+		System.out.println(answer);
 		br.close();
 	}
 

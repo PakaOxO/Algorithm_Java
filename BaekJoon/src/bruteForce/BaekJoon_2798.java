@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-// ºí·¢Àè
+// ë¸”ëž™ìž­
 public class BaekJoon_2798 {
 	static int[] cards;
 	static int max;
