@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-// µ¿Àü 0
+// ë™ì „ 0
 public class BeakJoon11047 {
 	static long[] money;
 
