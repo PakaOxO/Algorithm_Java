@@ -11,13 +11,12 @@ public class BaekJoon_1174 {
 	static StringBuilder sb;
 	
 	static void dfs(int maxIdx, int idx, int prev) {
-		if (cnt == 2023) {
-			return;
-		}
+		if (idx > 10) return;
+		if (cnt == N) return;
 		if (idx == maxIdx) {
-			StringBuilder sb2 = new StringBuilder();
+			sb = new StringBuilder();
 			for (int i=0; i<maxIdx; i++) {
-				sb2.append(comb[i]).append(" ");
+				sb.append(comb[i]);
 			}
 			cnt++;
 			return;
@@ -41,16 +40,15 @@ public class BaekJoon_1174 {
 		int maxIdx= 1;
 		while (true) {
 			dfs(maxIdx, 0, 10);
-			System.out.println(cnt == 1023);
-			if (cnt > 1023) {
-				System.out.println(cnt);
+			if (maxIdx > 10) {
 				hasNum = false;
 				break;
 			}
+			if (cnt == N) break;
 			maxIdx++;
 		}
-		System.out.println(hasNum);
-		System.out.println("cnt: " + cnt);
+		if (!hasNum) System.out.println(-1);
+		else System.out.println(sb);
 		br.close();
 	}
 
