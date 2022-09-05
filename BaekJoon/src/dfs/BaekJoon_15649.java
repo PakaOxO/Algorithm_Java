@@ -3,7 +3,15 @@ package dfs;
 import java.io.*;
 import java.util.*;
 
-// N과 M (1)
+/**
+ * BaekJoon_15649, N과 M (1)
+ * @author kevin-Arpe
+ * 
+ * Sketch idea
+ * 	1. 중복 선택을 방지하기 위해 isVisited로 이전 선택 값은 메모이제이션 합니다.
+ * 	2. 순열이므로 매 재귀마다 for (1 ~ N)문을 돌면서 이전에 선택되지 않은 값(메모이제이션 체크)이면 추가합니다.
+ * 
+ */
 public class BaekJoon_15649 {
 	static StringBuilder sb;
 	static boolean[] isSelected;
