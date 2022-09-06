@@ -4,6 +4,20 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+/**
+ * BaekJoon_10845, 큐
+ * @author kevin-Arpe
+ * 
+ * Sketch Idea
+ * 	1. 큐의 동작방식을 이해하기 위한 문제
+ * 	2. 직접 FIFO 구조의 자료구조(Queue) 클래스를 구현
+ * 		2.1 큐 안에 들어있는 요소의 개수를 나타낼 size 멤버변수 선언
+ * 		2.2 큐의 처음, 마지막 요소의 위치(index)를 확인할 head, tail 멤버변수 선언
+ * 		2.3 큐의 동작 방식에 따른 메서드 구현
+ * 
+ *  3. 입력으로 주어지는 명령들을 수행하여 결과를 문자열에 저장
+ *  
+ */
 public class BaekJoon_10845 {
 	static StringTokenizer st;
 	

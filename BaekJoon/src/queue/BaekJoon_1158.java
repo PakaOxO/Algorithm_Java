@@ -3,6 +3,16 @@ package queue;
 import java.io.*;
 import java.util.*;
 
+/**
+ * BaekJoon_1158, 조세퍼스 문제
+ * @author kevin-Arpe
+ * 
+ * Sketch Idea
+ * 	1. 입력받은 K만큼 pointer를 이동시켜가며 K번째 이동했을 때의 사람을 출력하는 문제
+ * 	2. 큐를 사용해 K-1번째까지는 앞의 사람을 poll 해서 맨 뒤로 다시 add
+ * 	3. K번째 사람은 poll하여 출력값이 저장
+ *
+ */
 public class BaekJoon_1158 {
 
 	public static void main(String[] args) throws Exception {

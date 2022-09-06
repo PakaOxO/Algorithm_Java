@@ -3,7 +3,15 @@ package string;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-// 단어 뒤집기
+/**
+ * BaekJoon_9093, 단어 뒤집기
+ * @author kevin-Arpe
+ * 
+ * Sketch Idea
+ * 	1. 입력받은 문자열을 뒤집어 출력
+ * 	2. StringBuilder Class의 reverse() 메서드를 사용해 문자열을 뒤집고,
+ *  3. 출력 문자열에 추가
+ */
 public class BaekJoon_9093 {
 
 	public static void main(String[] args) throws Exception {
