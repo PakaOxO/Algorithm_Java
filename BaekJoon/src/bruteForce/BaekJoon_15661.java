@@ -8,7 +8,10 @@ import java.util.*;
  * @author kevin-Arpe
  * 
  * Sketch Idea
- * 	1. 
+ * 	1. A팀에 들어갈 인원을 조합으로 뽑으면 B팀에 배정될 인원은 자동으로 결정
+ * 	2. A팀 인원을 만들면서 A팀, B팀의 stat 계산
+ * 	3. 계산된 stat으로 stat차이를 min과 비교해 최소값 도출
+ * 	4. 조합 탐색 종료 후 min 출력
  *
  */
 public class BaekJoon_15661 {
