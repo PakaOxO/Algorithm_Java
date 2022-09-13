@@ -3,7 +3,11 @@ package bruteForce;
 import java.io.*;
 import java.util.StringTokenizer;
 
-// 피로도
+/**
+ * BaekJoon_22864, 피로도
+ * @author kevin-Arpe
+ * 
+ */
 public class BaekJoon_22864 {
 
 	public static void main(String[] args) throws Exception {
