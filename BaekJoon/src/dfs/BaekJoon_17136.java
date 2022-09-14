@@ -3,7 +3,17 @@ package dfs;
 import java.io.*;
 import java.util.*;
 
-// 색종이 붙이기
+/**
+ * BaekJoon_17136, 색종이 붙이기
+ * @author kevin-Arpe
+ * 
+ * Sketch Idea
+ * 	1. 입력을 받으면서 색종이를 붙여야하는 공간(void)의 위치를 ArrayList에 저장
+ * 	2. dfs를 돌면서 void 위치에 큰 색종이부터 작은 색종이 순으로 붙여봄
+ * 		2.1 체크 사항, void 공간이 색종이를 붙일만큼 넓은지, 도화지 바깥으로 벗어나지 않는지
+ * 	3. 붙이거나 안붙이거나 모든 조합 탐색해서 모든 void를 붙였으면(point == void.size()) 붙인 개수 answer에 저장
+ * 		
+ */
 public class BaekJoon_17136 {
 	static int[][] board;
 	static List<int[]> voidList;
