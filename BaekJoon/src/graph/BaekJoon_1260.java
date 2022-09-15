@@ -19,10 +19,11 @@ public class BaekJoon_1260 {
 	static StringBuilder bfsPath;
 	
 	static void dfs(int curr) {
+		dfsVisited[curr] = true;
+		dfsPath.append(curr).append(" ");
+		
 		for (int i=1; i<=N; i++) {
-			if (i == curr || dfsVisited[i]) continue;
-			dfsVisited[i] = true;
-			dfsPath.append(i).append(" ");
+			if (i == curr || dfsVisited[i] || !graph[curr][i]) continue;
 			dfs(i);
 		}
 	}
