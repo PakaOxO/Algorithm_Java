@@ -21,8 +21,8 @@ public class BaekJoon_2178 {
 		Queue<int[]> q = new LinkedList<>();
 		q.add(new int[] { 0, 0 });
 		isVisited[0][0] = true;
+		cnt[0][0] = 1;
 		
-		int depth = 1;
 		while (q.size() > 0) {
 			int[] curr = q.remove();
 			int r = curr[0];
@@ -35,11 +35,10 @@ public class BaekJoon_2178 {
 				if (r + dr < 0 || c + dc < 0 || r + dr > n || c + dc > m || isVisited[r + dr][c + dc]) continue;
 				if (map[r + dr][c + dc] == 0) continue;
 				
-				cnt[r + dr][c + dc] = (cnt[r + dr][c + dc] == 0) ? depth : Math.min(cnt[r + dr][c + dc], depth);
+				cnt[r + dr][c + dc] = cnt[r][c] + 1;
 				q.add(new int[] { r + dr, c + dc });
 				isVisited[r + dr][c + dc] = true;
 			}
-			depth++;
 		}
 	}
 
@@ -60,10 +59,6 @@ public class BaekJoon_2178 {
 		}
 		
 		bfs(N - 1, M - 1);
-		
-		for (int i=0; i<N; i++) {
-			System.out.println(Arrays.toString(cnt[i]));
-		}
 		
 		System.out.println(cnt[N - 1][M - 1]);
 		br.close();
