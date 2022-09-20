@@ -13,6 +13,8 @@ import java.util.*;
  * 	2. 때문에 샘터에 가까운 곳부터 집을 배치하는 BFS 탐색 사용
  * 		2.1 모든 샘터의 위치를 큐에 저장한 뒤 하나씩 큐에서 뽑아 내면서 가까운 집의 위치를 선택
  * 		2.2 집을 선택할 때마다 count + 1, 그리고 total + (현재 위치 불행도)
+ * 		2.3 탐색의 방법은
+ * 			2.3.1 curr 기준 (curr - 1), (curr + 1)로 이동할 수 있는데 두 위치가 pos(이전 방문 장소 및 거리를 저장)에 있는 지 체크해서 없으면 이동
  * 
  * 	3. K개의 집이 선택되었을 때 BFS 탐색 종료
  * 
@@ -31,33 +33,17 @@ public class BaekJoon_18513 {
 		while (q.size() > 0) {
 			int curr = q.poll();
 			
-			int left = 0;
 			if (!pos.containsKey(curr - 1)) {
 				q.offer(curr - 1);
 				pos.put(curr - 1, pos.get(curr) + 1);
-				left = pos.get(curr - 1);
+				total += pos.get(curr - 1);
+				hCnt++;
+				if (hCnt == K) break;
 			}
-			int right = 0;
 			if (!pos.containsKey(curr + 1)) {
 				q.offer(curr + 1);
 				pos.put(curr + 1, pos.get(curr) + 1);
-				right = pos.get(curr + 1);
-			}
-			
-			if (left > 0 && right > 0) {
-				total += Math.min(left, right);
-				hCnt++;
-				if (hCnt == K) break;
-				
-				total += Math.max(left, right);
-				hCnt++;
-				if (hCnt == K) break;
-			} else if (left > 0) {
-				total += left;
-				hCnt++;
-				if (hCnt == K) break;
-			} else if (right > 0) {
-				total += right;
+				total += pos.get(curr + 1);
 				hCnt++;
 				if (hCnt == K) break;
 			}
