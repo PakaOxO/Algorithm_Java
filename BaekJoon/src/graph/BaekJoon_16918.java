@@ -8,7 +8,6 @@ import java.util.*;
  * @author kevin-Arpe
  * 
  * Sketch Idea
- * 	1. 
  *
  */
 public class BaekJoon_16918 {
@@ -22,7 +21,7 @@ public class BaekJoon_16918 {
 		Queue<int[]> q = new LinkedList<>();
 		q.add(new int[] { r, c });
 		map[r][c] = '.';
-		cnt[r][c] = 'O';
+		cnt[r][c] = 0;
 		
 		while (q.size() > 0) {
 			int[] now = q.remove();

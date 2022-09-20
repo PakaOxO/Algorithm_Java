@@ -10,7 +10,7 @@ import java.util.*;
  * Sketch Idea
  * 	1. 익은 토마토의 위치를 미리 큐에 저장한 뒤 한번에 BFS 탐색
  * 	2. 탐색을 진행하며 각 위치의 토마토가 익는 최소 날짜 계산
- * 		2.1 이미 익은(적은 일수로) 토마토에 접근할 경우 continue
+ * 		2.1 이미 익은 토마토에 접근할 경우 continue
  * 		2.2 모든 탐색을 진행하면서 최대 일자(모든 토마토가 익기까지 필요한 시간) 저장
  *
  */
@@ -31,12 +31,13 @@ public class BaekJoon_7576 {
 				int nc = curr[1] + drc[i][1];
 				
 				if (nr < 0 || nc < 0 || nr >= N || nc >= M || box[nr][nc] == -1 || isVisited[nr][nc]) continue;
-				if (box[nr][nc] > 0 && box[nr][nc] < box[curr[0]][curr[1]] + 1) continue;
+//				if (box[nr][nc] > 0 && box[nr][nc] < box[curr[0]][curr[1]] + 1) continue;
 				
 				q.offer(new int[] { nr, nc });
 				isVisited[nr][nc] = true;
 				box[nr][nc] = box[curr[0]][curr[1]] + 1;
-				max = Math.max(max, box[nr][nc]);
+//				max = Math.max(max, box[nr][nc]);
+				max = box[nr][nc];
 				ripeCnt = Math.max(ripeCnt, ripeCnt + 1);
 			}
 		}
