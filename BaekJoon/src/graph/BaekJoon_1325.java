@@ -14,39 +14,28 @@ import java.util.*;
  *
  */
 public class BaekJoon_1325 {
-	static int N, M;
-	static List<Integer>[] connectNode;
-	static Set<Integer>[] connectNodeAll;
-	static List<Integer>[] cnt;
-	static int max;
+	static int N, M, max;
+	static List<Integer>[] list;
+	static int[] cnt;
 	
-	static void bfs(int start, int N) {
+	static void bfs(int start) {
 		Queue<Integer> q = new LinkedList<>();
-		boolean[] visited = new boolean[N + 1];
-		q.add(start);
-		visited[start] = true;
+		boolean[] isVisited = new boolean[N + 1];
+		q.offer(start);
+		isVisited[start] = true;
 		
+		int count = 0;
 		while (q.size() > 0) {
-			int curr = q.remove();
-			for (int i=0; i<connectNode[curr].size(); i++) {
-				int next = connectNode[curr].get(i);
-				if (visited[next]) continue;
-				
-				if (curr > next) {
-					Iterator<Integer> it = connectNodeAll[next].iterator();
-					while (it.hasNext()) {
-						connectNodeAll[start].add(it.next());
-					}
-				} else {
-					q.add(next);
-				}
-				connectNodeAll[start].add(next);
-				visited[next] = true;
+			int curr = q.poll();
+			for (int next : list[curr]) {
+				if (isVisited[next]) continue;
+				q.add(next);
+				isVisited[next] = true;
+				count++;
 			}
 		}
-		int size = connectNodeAll[start].size();
-		cnt[size].add(start);
-		if (size > max) max = size;
+		cnt[start] = count;
+		max = Math.max(max, cnt[start]);
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -55,31 +44,27 @@ public class BaekJoon_1325 {
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
 		
-		connectNode = new ArrayList[N + 1];
-		connectNodeAll = new HashSet[N + 1];
-		cnt = new ArrayList[N];
-		for (int i=0; i<=N; i++) {
-			connectNode[i] = new ArrayList<>();
-			connectNodeAll[i] = new HashSet<>();
-			if (i < N) cnt[i] = new ArrayList<>();
+		list = new ArrayList[N + 1];
+		for (int i=1; i<=N; i++) {
+			list[i] = new ArrayList<>();
 		}
 		for (int i=0; i<M; i++) {
 			st = new StringTokenizer(br.readLine());
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			connectNode[b].add(a);
+			int A = Integer.parseInt(st.nextToken());
+			int B = Integer.parseInt(st.nextToken());
+			list[B].add(A);
 		}
 		
+		cnt = new int[N + 1];
 		for (int i=1; i<=N; i++) {
-			bfs(i, N);
+			bfs(i);
 		}
 		
 		StringBuilder sb = new StringBuilder();
-		for (int i=0; i<cnt[max].size(); i++) {
-			if (i < cnt[max].size() - 1) sb.append(cnt[max].get(i)).append(" ");
-			else sb.append(cnt[max].get(i));
+		for (int i=1; i<=N; i++) {
+			if (cnt[i] == max) sb.append(i).append(" ");
 		}
-		System.out.print(sb);
+		System.out.println(sb.toString().trim());
 		br.close();
 	}
 
