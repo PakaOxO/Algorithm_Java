@@ -13,30 +13,32 @@ import java.util.*;
  */
 public class BaekJoon_16954 {
 	static char[][] board;
+	static boolean[][][] isVisited;
 	static Queue<int[]> walls;
 	static Queue<int[]> queue;
-	static boolean answer;
+	static int answer;
 	
-	static int[] dr = { -1, 0, 0, 0, 1 };
-	static int[] dc = { 0, 1, 0, -1, 0 };
+	static int[] dr = { -1, -1, -1, 0, 0, 0, 1, 1, 1 };
+	static int[] dc = { 1, 0, -1, 1, 0, -1, 0, -1, 1 };
 	
 	static void moveWall() {
-		for (int i=0; i<walls.size(); i++) {
+		int wallSize = walls.size();
+		for (int i=0; i<wallSize; i++) {
 			int[] wall = walls.poll();
-			if (wall[0] + 1 == 8) continue;
+			if (wall[0] == 7) continue;
 			wall[0]++;
 			
 			for (int j=0; j<queue.size(); j++) {
 				int[] node = queue.poll();
-				if (node[0] == wall[0] && node[1] == wall[1]) continue;
+				if (node[0] == wall[0] && node[1] == wall[1]) break;
 				queue.offer(node);
 			}
 			walls.offer(wall);
 		}
 	}
 	
-	static boolean check(int r, int c) {
-		if (r < 0 || c < 0 || r >= 8 || c >= 8) return false;
+	static boolean check(int r, int c, int depth) {
+		if (r < 0 || c < 0 || r >= 8 || c >= 8 || isVisited[r][c][depth]) return false;
 		for (int[] wall : walls) {
 			if (wall[0] == r && wall[1] == c) return false;
 		}
@@ -46,23 +48,25 @@ public class BaekJoon_16954 {
 	static void bfs(int r, int c) {
 		queue = new LinkedList<>();
 		queue.offer(new int[] { r, c, 0 });
+		isVisited[r][c][0] = true;
 		
 		int depth = 0;
 		while (queue.size() > 0) {
 			int[] curr = queue.poll();
 			depth = curr[2];
-			for (int i=0; i<4; i++) {
+			isVisited[curr[0]][curr[1]][curr[2]] = false;
+			for (int i=0; i<9; i++) {
 				int nr = curr[0] + dr[i];
 				int nc = curr[1] + dc[i];
 				
-				if (!check(nr, nc)) continue;
+				if (!check(nr, nc, depth)) continue;
 				queue.offer(new int[] { nr, nc, depth + 1 });
+				isVisited[nr][nc][depth + 1] = true;
 				if (nr == 0 && nc == 7) {
-					answer = true;
+					answer = 1;
 					return;
 				}
 			}
-			
 			if (queue.size() > 0 && queue.peek()[2] > depth) moveWall();
 		}
 	}
@@ -70,6 +74,7 @@ public class BaekJoon_16954 {
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		board = new char[8][8];
+		isVisited = new boolean[8][8][16];
 		walls = new LinkedList<>();
 		for (int i=0; i<8; i++) {
 			String input = br.readLine();
@@ -79,8 +84,7 @@ public class BaekJoon_16954 {
 			}
 		}
 		br.close();
-		
-		answer = false;
+		answer = 0;
 		bfs(7, 0);
 		
 		System.out.println(answer);

@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * BaekJoon_1600
+ * BaekJoon_1600, 말이 되고픈 원숭이
  * @author kevin-Arpe
  * 
  * Sketch Idea (HARD)
