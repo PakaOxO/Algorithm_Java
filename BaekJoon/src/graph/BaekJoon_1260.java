@@ -23,7 +23,7 @@ public class BaekJoon_1260 {
 		dfsPath.append(curr).append(" ");
 		
 		for (int i=1; i<=N; i++) {
-			if (dfsVisited[i] || !graph[curr][i]) continue;
+			if (i == curr || dfsVisited[i] || !graph[curr][i]) continue;
 			dfs(i);
 		}
 	}
