@@ -4,77 +4,54 @@ import java.io.*;
 import java.util.*;
 
 /**
- * BaekJoon_16954, 움직이는 미로 탈출
+ * BaekJoon_16954, 움직이는 미로 탈출(HARD)
  * @author kevin-Arpe
  * 
  * Sketch Idea
- * 	1. 
+ * 	1. BFS로 풀려다가 실패... 재욱님 아이디어로 재풀이
+ * 
+ * 	2. 초기 시작점에서 DFS로 탐색하면서 가지치기
+ * 		2.1 가지치기 조건은 이동하려는 위치가 벽일 경우
+ * 		2.2 그리고 이동하려는 위치가 벽 바로 밑일 경우(다음 턴에 죽기 때문)
+ * 
+ * 	3. 7턴 뒤에 모든 벽은 사라지므로 depth 8까지 살아남았다면 1을 아니면 0을 출력
  *
  */
 public class BaekJoon_16954 {
 	static char[][] board;
-	static boolean[][][] isVisited;
+	static boolean[][] isVisited;
 	static Queue<int[]> walls;
-	static Queue<int[]> queue;
-	static int answer;
 	
 	static int[] dr = { -1, -1, -1, 0, 0, 0, 1, 1, 1 };
 	static int[] dc = { 1, 0, -1, 1, 0, -1, 0, -1, 1 };
 	
-	static void moveWall() {
-		int wallSize = walls.size();
-		for (int i=0; i<wallSize; i++) {
-			int[] wall = walls.poll();
-			if (wall[0] == 7) continue;
-			wall[0]++;
-			
-			for (int j=0; j<queue.size(); j++) {
-				int[] node = queue.poll();
-				if (node[0] == wall[0] && node[1] == wall[1]) break;
-				queue.offer(node);
-			}
-			walls.offer(wall);
-		}
-	}
-	
 	static boolean check(int r, int c, int depth) {
-		if (r < 0 || c < 0 || r >= 8 || c >= 8 || isVisited[r][c][depth]) return false;
+		if (r < 0 || c < 0 || r >= 8 || c >= 8) return false;
 		for (int[] wall : walls) {
-			if (wall[0] == r && wall[1] == c) return false;
+			if (wall[0] + depth == r && wall[1] == c) return false;
+			if (wall[0] + depth + 1 == r && wall[1] == c) return false;
 		}
 		return true;
 	}
 	
-	static void bfs(int r, int c) {
-		queue = new LinkedList<>();
-		queue.offer(new int[] { r, c, 0 });
-		isVisited[r][c][0] = true;
+	static void dfs(int r, int c, int depth) {
+		if (depth == 8) {
+			System.out.println(1);
+			System.exit(0);
+		}
 		
-		int depth = 0;
-		while (queue.size() > 0) {
-			int[] curr = queue.poll();
-			depth = curr[2];
-			isVisited[curr[0]][curr[1]][curr[2]] = false;
-			for (int i=0; i<9; i++) {
-				int nr = curr[0] + dr[i];
-				int nc = curr[1] + dc[i];
-				
-				if (!check(nr, nc, depth)) continue;
-				queue.offer(new int[] { nr, nc, depth + 1 });
-				isVisited[nr][nc][depth + 1] = true;
-				if (nr == 0 && nc == 7) {
-					answer = 1;
-					return;
-				}
-			}
-			if (queue.size() > 0 && queue.peek()[2] > depth) moveWall();
+		for (int i=0; i<9; i++) {
+			int nr = r + dr[i];
+			int nc = c + dc[i];
+			if (!check(nr, nc, depth)) continue;
+			dfs(nr, nc, depth + 1);
 		}
 	}
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		board = new char[8][8];
-		isVisited = new boolean[8][8][16];
+		isVisited = new boolean[8][8];
 		walls = new LinkedList<>();
 		for (int i=0; i<8; i++) {
 			String input = br.readLine();
@@ -84,10 +61,9 @@ public class BaekJoon_16954 {
 			}
 		}
 		br.close();
-		answer = 0;
-		bfs(7, 0);
+		dfs(7, 0, 0);
 		
-		System.out.println(answer);
+		System.out.println(0);
 	}
 
 }
