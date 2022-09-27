@@ -41,13 +41,18 @@ public class BaekJoon_15661 {
 					tA.add(j);
 				} else tB.add(j);
 			}
-			if (tA.size() != N / 2) continue;
+			if (tA.size() == 0 || tA.size() == N) continue;
 			
 			int A = 0;
-			int B = 0;
-			for (int j=0; j<N/2; j++) {
-				for (int k=j+1; k<N/2; k++) {
+			for (int j=0; j<tA.size()-1; j++) {
+				for (int k=j+1; k<tA.size(); k++) {
 					A += stats[tA.get(j)][tA.get(k)] + stats[tA.get(k)][tA.get(j)];
+				}
+			}
+			
+			int B = 0;
+			for (int j=0; j<tB.size()-1; j++) {
+				for (int k=j+1; k<tB.size(); k++) {
 					B += stats[tB.get(j)][tB.get(k)] + stats[tB.get(k)][tB.get(j)];
 				}
 			}

@@ -91,7 +91,6 @@ public class BaekJoon_2636 {
 		bfs();
 		
 		for (int i=1; i<N-1; i++) {
-			System.out.println(Arrays.toString(board[i]));
 			for (int j=1; j<M-1; j++) {
 				if (max > 0 && board[i][j] == max) cnt++;
 			}
