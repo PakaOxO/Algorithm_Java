@@ -7,8 +7,8 @@ import java.util.*;
  * BaekJoon_1753, 최단경로
  * @author kevin-Arpe
  * 
- * Sketch Idea (Prim MST)
- * 	1. 
+ * Sketch Idea
+ * 	1. 다익스트라 최단경로 알고리즘 사용
  *
  */
 public class BaekJoon_1753 {
