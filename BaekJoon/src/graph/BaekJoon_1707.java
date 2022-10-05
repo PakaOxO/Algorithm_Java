@@ -32,17 +32,21 @@ public class BaekJoon_1707 {
 	static int[] isVisited;
 	static boolean flag;
 	
-	static boolean dfs(int v, int c) {
+	/**
+	 * DFS 돌면서 flag 값이 바뀌는 것 주의
+	 */
+	static void dfs(int v, int c) {
 		isVisited[v] = c;
 		
 		for (Node next=adjList[v]; next!=null; next=next.next) {
 			if (isVisited[next.v] == c) {
-				return false;
+				flag = false;
+				return;
 			} else if (isVisited[next.v] == 0) {
-				return dfs(next.v, c*-1);
+				dfs(next.v, c*-1);
+				if (!flag) break;
 			}
 		}
-		return true;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -65,12 +69,13 @@ public class BaekJoon_1707 {
 			}
 				
 			isVisited = new int[V + 1];
+			flag = true;
 			for (int i=1; i<=V; i++) {
 				if(isVisited[i] != 0) continue;
-				flag = dfs(i, 1);
+				dfs(i, 1);
+				if (!flag) break;
 			}
 			
-			System.out.println(Arrays.toString(isVisited));
 			if (flag) sb.append("YES\n");
 			else sb.append("NO\n");
 		}
