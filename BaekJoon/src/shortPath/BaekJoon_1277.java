@@ -1,4 +1,4 @@
-package dijkstra;
+package shortPath;
 
 import java.io.*;
 import java.util.*;
