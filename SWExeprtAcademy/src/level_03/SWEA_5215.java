@@ -1,24 +1,35 @@
 package level_03;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-// 햄버거 다이어트
+/**
+ * SWEA_5215, 햄버거 다이어트
+ * @author kevin-Arpe
+ * 
+ * Sketch Idea
+ * 	1. DP로 재 풀이, knapsack 문제와 같은 문제
+ * 	2. 해당 풀이에 대한 설명은 knapsack 문제에 서술
+ * 
+ *
+ */
 public class SWEA_5215 {
 	static int N, L;
-	static int[][] foods;
-	static int answer;
+	static int[][] g;
+	static int[][] dp;
 	
-	static void getFood(int start, int tastes, int calories) {
-		if (calories > L) return;
-		answer = Math.max(answer, tastes);
-		
-		for (int i=start; i<N; i++) {
-			getFood(i + 1, tastes + foods[i][0], calories + foods[i][1]);
+	static void dp() {
+		for (int i=1; i<=N; i++) {
+			for (int j=1; j<=L; j++) {
+				if (j < g[i][1]) {
+					dp[i][j] = dp[i - 1][j];
+				} else {
+					dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - g[i][1]] + g[i][0]);
+				}
+			}
 		}
 	}
-
+	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
@@ -27,18 +38,21 @@ public class SWEA_5215 {
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			N = Integer.parseInt(st.nextToken());
 			L = Integer.parseInt(st.nextToken());
-			foods = new int[N][2];
-			for (int i=0; i<N; i++) {
+			
+			g = new int[N + 1][2];
+			dp = new int[N + 1][L+1];
+			
+			for (int i=1; i<=N; i++) {
 				st = new StringTokenizer(br.readLine());
-				foods[i][0] = Integer.parseInt(st.nextToken());
-				foods[i][1] = Integer.parseInt(st.nextToken());
+				g[i][0] = Integer.parseInt(st.nextToken());
+				g[i][1] = Integer.parseInt(st.nextToken());
 			}
-			answer = 0;
-			getFood(0, 0, 0);
-			sb.append("#").append(tc).append(" ").append(answer).append("\n");
+
+			dp();
+			sb.append(String.format("#%d %d\n", tc, dp[N][L]));
 		}
-		System.out.print(sb);
 		br.close();
+		System.out.print(sb);
 	}
 
 }
