@@ -35,14 +35,17 @@ public class BaekJoon_22865 {
 	
 	static final int INF = Integer.MAX_VALUE;
 	static int V, E;
-	static int[] house;
+	static int A, B, C;
 	static int[][] dist;
 	static boolean[] isVisited;
 	static Node[] adjList;
 	
 	static void dijkstra(int idx, int s) {
+		isVisited = new boolean[V];
+		
 		PriorityQueue<Node> pq = new PriorityQueue<>();
 		pq.offer(new Node(s, 0));
+		Arrays.fill(dist[idx], INF);
 		dist[idx][s] = 0;
 		
 		int cnt = 0;
@@ -63,12 +66,10 @@ public class BaekJoon_22865 {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		V = Integer.parseInt(br.readLine());
 		
-		house = new int[3];
-		
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		house[0] = Integer.parseInt(st.nextToken()) - 1;
-		house[1] = Integer.parseInt(st.nextToken()) - 1;
-		house[2] = Integer.parseInt(st.nextToken()) - 1;
+		A = Integer.parseInt(st.nextToken()) - 1;
+		B = Integer.parseInt(st.nextToken()) - 1;
+		C = Integer.parseInt(st.nextToken()) - 1;
 
 		E = Integer.parseInt(br.readLine());
 		
@@ -85,27 +86,22 @@ public class BaekJoon_22865 {
 		br.close();
 		
 		dist = new int[3][V];
-		for (int[] d : dist) Arrays.fill(d, INF);
-		for (int i=0; i<3; i++) {
-			isVisited = new boolean[V];
-			dijkstra(i, house[i]);
-		}
+		dijkstra(0, A);
+		dijkstra(1, B);
+		dijkstra(2, C);
+//		for (int[] d : dist) System.out.println(Arrays.toString(d));
 		
-		int max = 0;
+		int max = Integer.MIN_VALUE;
 		int answer = 0;
 		for (int i=0; i<V; i++) {
-			int min = Integer.MAX_VALUE;
-			for (int j=0; j<3; j++) {
-				if (house[j] == i) continue;
-				if (dist[j][i] < min) {
-					min = dist[j][i];
-				}
-			}
+//			if (i == A || i == B || i == C) continue;
+			int min = Math.min(dist[0][i], Math.min(dist[1][i], dist[2][i]));
 			if (min > max) {
 				max = min;
 				answer = i;
 			}
 		}
+//		System.out.println(max);
 		System.out.println(answer + 1);
 	}
 
