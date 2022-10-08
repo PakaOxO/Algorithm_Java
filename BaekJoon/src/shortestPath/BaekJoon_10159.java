@@ -1,18 +1,21 @@
-package shortPath;
+package shortestPath;
 
 import java.io.*;
 import java.util.*;
 
 /**
- * BaekJoon_1956, 운동
+ * BaekJoon_10159, 저울
  * @author kevin-Arpe
  * 
  * Sketch Idea
- * 	1. 시작-끝, 끝-시작 지점에 대해 다익스트라로 최단 경로를 구한 후
- * 	2. 두 최단 경로를 합한 값을 출력
+ * 	1. 입력을 받으면서 무거운 것 -> 가벼운 것 으로 이동하는 그래프 생성
+ * 	2. 두 무게가 비교 가능하다는 것은 무게 비교가 연속적으로 이루어졌음을 의미
+ * 		2.1 무거운 물건에서 가벼운 물건으로 이동하는 단방향 그래프에서는 무거운 물건에서 가벼운 물건으로 이동하는 경로가 있을 때 그 경로상의 임의의 두 물건은 무게 비교가 가능
+ * 		2.1 만약 가벼운 물건에서 시작한다면 직접 무거운 물건으로 이동할 수는 없으므로 무거운 물건에서 자신으로 오는 경로가 있는지 확인
  *
  */
-public class BaekJoon_1956 {
+
+public class BaekJoon_10159 {
 	static class Node implements Comparable<Node> {
 		int v, w;
 		Node next;
@@ -60,25 +63,21 @@ public class BaekJoon_1956 {
 			}
 		}
 	}
-
+	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-
-		V = Integer.parseInt(st.nextToken());
-		E = Integer.parseInt(st.nextToken());
+		V = Integer.parseInt(br.readLine());
+		E = Integer.parseInt(br.readLine());
 		
 		adjList = new Node[V];
 		for (int i=0; i<E; i++) {
-			st = new StringTokenizer(br.readLine());
+			StringTokenizer st = new StringTokenizer(br.readLine());
 			int s = Integer.parseInt(st.nextToken()) - 1;
 			int e = Integer.parseInt(st.nextToken()) - 1;
-			int w = Integer.parseInt(st.nextToken());
-			
-			adjList[s] = new Node(e, w, adjList[s]);
+			adjList[s] = new Node(e, 0, adjList[s]);
 		}
 		br.close();
-		
+
 		dist = new int[V][V];
 		for (int i=0; i<V; i++) {
 			Arrays.fill(dist[i], INF);
@@ -86,17 +85,16 @@ public class BaekJoon_1956 {
 			dijkstra(i);
 		}
 		
-		int min = INF;
+		int[] cnt = new int[V];
+		StringBuilder sb = new StringBuilder();
 		for (int i=0; i<V; i++) {
 			for (int j=0; j<V; j++) {
-				if (i == j || dist[i][j] == INF || dist[j][i] == INF) continue;
-				min = Math.min(min, dist[i][j] + dist[j][i]);
+				if (i == j || dist[i][j] == 0 || dist[j][i] == 0) continue;
+				cnt[i]++;
 			}
-			
+			sb.append(cnt[i]).append("\n");
 		}
-		
-		if (min == INF) System.out.println(-1);
-		else System.out.println(min);
+		System.out.print(sb);
 	}
 
 }

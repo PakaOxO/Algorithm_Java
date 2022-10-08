@@ -1,4 +1,4 @@
-package shortPath;
+package shortestPath;
 
 import java.io.*;
 import java.util.*;

@@ -1,18 +1,18 @@
-package shortPath;
+package shortestPath;
 
 import java.io.*;
 import java.util.*;
 
 /**
- * BaekJoon_11404, 플로이드
+ * BaekJoon_1956, 운동
  * @author kevin-Arpe
  * 
  * Sketch Idea
- * 	1. 각각의 시작 지점에서 다른 끝 지점에 대해 모든 최단거리를 구하는 문제
- * 	2. 아직 플로이드-워셜 기법에 대해 공부하기 전이므로 다익스트라로 먼저 풀이
+ * 	1. 시작-끝, 끝-시작 지점에 대해 다익스트라로 최단 경로를 구한 후
+ * 	2. 두 최단 경로를 합한 값을 출력
  *
  */
-public class BaekJoon_11404 {
+public class BaekJoon_1956 {
 	static class Node implements Comparable<Node> {
 		int v, w;
 		Node next;
@@ -33,6 +33,12 @@ public class BaekJoon_11404 {
 			return this.w < o.w ? -1 : 1;
 		}
 	}
+	
+	static final int INF = Integer.MAX_VALUE;
+	static int V, E;
+	static Node[] adjList;
+	static int[][] dist;
+	static boolean[] isVisited;
 	
 	static void dijkstra(int s) {
 		PriorityQueue<Node> pq = new PriorityQueue<>();
@@ -55,21 +61,16 @@ public class BaekJoon_11404 {
 		}
 	}
 
-	static final int INF = Integer.MAX_VALUE;
-	static int V, E;
-	static Node[] adjList;
-	static int[][] dist;
-	static boolean[] isVisited;
-	
-	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		V = Integer.parseInt(br.readLine());
-		E = Integer.parseInt(br.readLine());
+		StringTokenizer st = new StringTokenizer(br.readLine());
+
+		V = Integer.parseInt(st.nextToken());
+		E = Integer.parseInt(st.nextToken());
 		
 		adjList = new Node[V];
 		for (int i=0; i<E; i++) {
-			StringTokenizer st = new StringTokenizer(br.readLine());
+			st = new StringTokenizer(br.readLine());
 			int s = Integer.parseInt(st.nextToken()) - 1;
 			int e = Integer.parseInt(st.nextToken()) - 1;
 			int w = Integer.parseInt(st.nextToken());
@@ -80,29 +81,22 @@ public class BaekJoon_11404 {
 		
 		dist = new int[V][V];
 		for (int i=0; i<V; i++) {
-			isVisited = new boolean[V];
 			Arrays.fill(dist[i], INF);
+			isVisited = new boolean[V];
 			dijkstra(i);
 		}
 		
-		StringBuilder sb = new StringBuilder();
+		int min = INF;
 		for (int i=0; i<V; i++) {
 			for (int j=0; j<V; j++) {
-				if (j < V - 1) {
-					if (dist[i][j] == INF) sb.append(0);
-					else sb.append(dist[i][j]);
-					
-					sb.append(" ");
-				}
-				else {
-					if (dist[i][j] == INF) sb.append(0);
-					else sb.append(dist[i][j]);
-					
-					sb.append("\n");
-				}
+				if (i == j || dist[i][j] == INF || dist[j][i] == INF) continue;
+				min = Math.min(min, dist[i][j] + dist[j][i]);
 			}
+			
 		}
-		System.out.print(sb);
+		
+		if (min == INF) System.out.println(-1);
+		else System.out.println(min);
 	}
 
 }

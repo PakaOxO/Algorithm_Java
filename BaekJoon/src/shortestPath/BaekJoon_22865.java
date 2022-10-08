@@ -1,4 +1,4 @@
-package shortPath;
+package shortestPath;
 
 import java.io.*;
 import java.util.*;
@@ -8,7 +8,8 @@ import java.util.*;
  * @author kevin-Arpe
  * 
  * Sketch Idea
- * 	1. 
+ * 	1. 다익스트라의 시작점을 어디로 할지 판단만 하면 아주 쉬운 문제...
+ * 	2. 다익스트라 구현 코드 내부에서 현재 노드 방문체크를 빼먹어서 틀리고 있었음.. 반성.. 
  *
  */
 public class BaekJoon_22865 {
@@ -51,6 +52,7 @@ public class BaekJoon_22865 {
 		int cnt = 0;
 		while (pq.size() > 0) {
 			Node curr = pq.poll();
+			if (isVisited[curr.v]) continue; 
 			isVisited[curr.v] = true;
 			
 			if (++cnt == V) break;
@@ -89,19 +91,16 @@ public class BaekJoon_22865 {
 		dijkstra(0, A);
 		dijkstra(1, B);
 		dijkstra(2, C);
-//		for (int[] d : dist) System.out.println(Arrays.toString(d));
 		
 		int max = Integer.MIN_VALUE;
 		int answer = 0;
 		for (int i=0; i<V; i++) {
-//			if (i == A || i == B || i == C) continue;
 			int min = Math.min(dist[0][i], Math.min(dist[1][i], dist[2][i]));
 			if (min > max) {
 				max = min;
 				answer = i;
 			}
 		}
-//		System.out.println(max);
 		System.out.println(answer + 1);
 	}
 

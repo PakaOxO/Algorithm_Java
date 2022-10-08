@@ -1,21 +1,18 @@
-package shortPath;
+package shortestPath;
 
 import java.io.*;
 import java.util.*;
 
 /**
- * BaekJoon_10159, 저울
+ * BaekJoon_11404, 플로이드
  * @author kevin-Arpe
  * 
  * Sketch Idea
- * 	1. 입력을 받으면서 무거운 것 -> 가벼운 것 으로 이동하는 그래프 생성
- * 	2. 두 무게가 비교 가능하다는 것은 무게 비교가 연속적으로 이루어졌음을 의미
- * 		2.1 무거운 물건에서 가벼운 물건으로 이동하는 단방향 그래프에서는 무거운 물건에서 가벼운 물건으로 이동하는 경로가 있을 때 그 경로상의 임의의 두 물건은 무게 비교가 가능
- * 		2.1 만약 가벼운 물건에서 시작한다면 직접 무거운 물건으로 이동할 수는 없으므로 무거운 물건에서 자신으로 오는 경로가 있는지 확인
+ * 	1. 각각의 시작 지점에서 다른 끝 지점에 대해 모든 최단거리를 구하는 문제
+ * 	2. 아직 플로이드-워셜 기법에 대해 공부하기 전이므로 다익스트라로 먼저 풀이
  *
  */
-
-public class BaekJoon_10159 {
+public class BaekJoon_11404 {
 	static class Node implements Comparable<Node> {
 		int v, w;
 		Node next;
@@ -37,12 +34,6 @@ public class BaekJoon_10159 {
 		}
 	}
 	
-	static final int INF = Integer.MAX_VALUE;
-	static int V, E;
-	static Node[] adjList;
-	static int[][] dist;
-	static boolean[] isVisited;
-	
 	static void dijkstra(int s) {
 		PriorityQueue<Node> pq = new PriorityQueue<>();
 		pq.offer(new Node(s, 0));
@@ -63,6 +54,13 @@ public class BaekJoon_10159 {
 			}
 		}
 	}
+
+	static final int INF = Integer.MAX_VALUE;
+	static int V, E;
+	static Node[] adjList;
+	static int[][] dist;
+	static boolean[] isVisited;
+	
 	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -74,25 +72,35 @@ public class BaekJoon_10159 {
 			StringTokenizer st = new StringTokenizer(br.readLine());
 			int s = Integer.parseInt(st.nextToken()) - 1;
 			int e = Integer.parseInt(st.nextToken()) - 1;
-			adjList[s] = new Node(e, 0, adjList[s]);
+			int w = Integer.parseInt(st.nextToken());
+			
+			adjList[s] = new Node(e, w, adjList[s]);
 		}
 		br.close();
-
+		
 		dist = new int[V][V];
 		for (int i=0; i<V; i++) {
-			Arrays.fill(dist[i], INF);
 			isVisited = new boolean[V];
+			Arrays.fill(dist[i], INF);
 			dijkstra(i);
 		}
 		
-		int[] cnt = new int[V];
 		StringBuilder sb = new StringBuilder();
 		for (int i=0; i<V; i++) {
 			for (int j=0; j<V; j++) {
-				if (i == j || dist[i][j] == 0 || dist[j][i] == 0) continue;
-				cnt[i]++;
+				if (j < V - 1) {
+					if (dist[i][j] == INF) sb.append(0);
+					else sb.append(dist[i][j]);
+					
+					sb.append(" ");
+				}
+				else {
+					if (dist[i][j] == INF) sb.append(0);
+					else sb.append(dist[i][j]);
+					
+					sb.append("\n");
+				}
 			}
-			sb.append(cnt[i]).append("\n");
 		}
 		System.out.print(sb);
 	}
