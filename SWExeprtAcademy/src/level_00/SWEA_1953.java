@@ -1,4 +1,4 @@
-package level00;
+package level_00;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

@@ -1,4 +1,4 @@
-package level00;
+package level_00;
 
 import java.io.*;
 import java.util.*;
@@ -8,84 +8,61 @@ import java.util.*;
  * @author kevin-Arpe
  * 
  * Sketch Idea
- * 	1. 
+ * 	1. 처음에 if/else 노가다로 벽 타입별로 튕겨나가는 방향을 달리해주도록 풀이...
+ * 	2. 현재 방향-마주친 벽 타입에 대해 튕겨나가는 방향은 고정되어 있으므로 아래와 같이 nDir 배열을 만들어 해결하면 되었음
+ * 	3. 외벽(경계)은 정사각형 벽과 동일한 메커니즘이므로 해당 nDir에 의해 방향이 바뀌도록 수정
+ * 	4. 나머지 풀이들은 문제에 주어진 대로 구현하면 되었음.
  *
  */
 public class SWEA_5650 {
-	static int N, sR, sC, r, c, dir, cnt, answer;
+	static int N, sR, sC, dir, cnt, answer;
 	static int[][] board;
 	static int[][][] hole;
 	static int[][] drc = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
+	static int[][] nDir = { { 0, 1, 2, 3 },
+							{ 2, 3, 1, 0 },
+							{ 1, 3, 0, 2 },
+							{ 3, 2, 0, 1 },
+							{ 2, 0, 3, 1 },
+							{ 2, 3, 0, 1 }
+						  };
 	static List<int[]> start;
 	
 	static void play() {
-		int nr, nc;
+		int nr = sR;
+		int nc = sC;
+		int type;
 		while (true) {
-			if (cnt > 0 && r == sR && c == sC) {
+			nr += drc[dir][0];
+			nc += drc[dir][1];
+			type = board[nr][nc];
+			
+			if ((nr == sR && nc == sC) || type == -1) {
 				break;
 			}
 			
-			if (r == 0 || c == 0 || r == N + 1 || c == N + 1) {
-				dir = (dir + 2) % 4;
+			if (nr == 0 || nc == 0 || nr == N + 1 || nc == N + 1) {
+				dir = nDir[5][dir];
 				cnt++;
-			}
-			System.out.println(r + " " + c + " " + dir + " " + board[r][c]);
-			nr = r + drc[dir][0];
-			nc = c + drc[dir][1];
-			if (board[nr][nc] == 5) {
-				dir = (dir + 2) % 4;
-			} else if (board[nr][nc] == 0) {
-				r = nr;
-				c = nc;
-			} else if (board[nr][nc] == 1) {
-				r = nr;
-				c = nc;
-				cnt++;
-				if (dir <= 1) dir = (dir + 2) % 4;
-				else if (dir == 2) dir = 1;
-				else dir = 0;
-				
-			} else if (board[nr][nc] == 2) {
-				r = nr;
-				c = nc;
-				cnt++;
-				if (dir == 1 || dir == 2) dir = (dir + 2) % 4;
-				else if (dir == 0) dir = 1;
-				else dir = 2;
-				
-			} else if (board[nr][nc] == 3) {
-				r = nr;
-				c = nc;
-				cnt++;
-				if (dir == 2 || dir == 3) dir = (dir + 2) % 4;
-				else if (dir == 0) dir = 3;
-				else dir = 2;
-				
-			} else if (board[nr][nc] == 4) {
-				r = nr;
-				c = nc;
-				cnt++;
-				if (dir == 0 || dir == 3) dir = (dir + 2) % 4;
-				else if (dir == 1) dir = 0;
-				else dir = 3;
-				
-			} else if (board[nr][nc] >= 6 && board[nr][nc] <= 10) {
-				if (nr == hole[board[nr][nc] - 6][0][0] && nc == hole[board[nr][nc] - 6][0][1]) {
-					r = hole[board[nr][nc] - 6][1][0];
-					c = hole[board[nr][nc] - 6][1][1];
-				} else {
-					r = hole[board[nr][nc] - 6][0][0];
-					c = hole[board[nr][nc] - 6][0][1];
-				}
+			} else if (type < 6) {
+				dir = nDir[type][dir];
+				if (type != 0) cnt++;
 			} else {
-				break;
+				if (nr == hole[type - 6][0][0] && nc == hole[type - 6][0][1]) {
+					nr = hole[type - 6][1][0];
+					nc = hole[type - 6][1][1];
+				} else {
+					nr = hole[type - 6][0][0];
+					nc = hole[type - 6][0][1];
+				}
+				
 			}
-			
 		}
 	}
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 		int T = Integer.parseInt(br.readLine());
 		
 		for (int tc=1; tc<=T; tc++) {
@@ -117,16 +94,17 @@ public class SWEA_5650 {
 					sR = s[0];
 					sC = s[1];
 					
-					r = sR;
-					c = sC;
 					dir = i;
 					cnt = 0;
 					play();
 					answer = Math.max(answer, cnt);
 				}
 			}
-			System.out.println(answer);
+			sb.append(String.format("#%d %d\n", tc, answer));
 		}
+		br.close();
+		
+		System.out.print(sb);
 	}
 
 }
