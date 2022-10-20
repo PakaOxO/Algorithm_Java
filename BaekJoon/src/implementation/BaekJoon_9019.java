@@ -8,7 +8,10 @@ import java.util.*;
  * @author kevin-Arpe
  * 
  * Sketch Idea
- *  1. 
+ *  1. 현재 숫자에서 할 수 있는 연산은 4가지
+ *  2. 가장 적은 연산으로 M을 만들어야 하므로 처음 N에서 시작해 4가지 연산을 진행하며 BFS 탐색
+ *  3. 큐에 담는 노드에는 누적연산의 결과(문자열), 그리고 연산으로 새로 받은 숫자를 저장
+ *  4. 연산의 결과 M이 되었다면 BFS 탐색을 종료하고 누적연산의 결과를 answer에 저장
  *
  */
 public class BaekJoon_9019 {
@@ -42,19 +45,6 @@ public class BaekJoon_9019 {
         return converted;
     }
     
-    static int shift(int num) {
-        int cnt = 0;
-        int n = num;
-        for (int i=1; i<=4; i++) {
-            n = operation(n, 'L');
-            if (n == M) {
-                cnt = i;
-                break;
-            }
-        }
-        return cnt;
-    }
-    
     static void bfs(int num) {
         Queue<Node> q = new LinkedList<>();
         q.offer(new Node("", num));
@@ -64,16 +54,6 @@ public class BaekJoon_9019 {
         
         while (!q.isEmpty()) {
             Node curr = q.poll();
-            
-            int sCnt = shift(curr.val);
-            if (sCnt > 0) {
-                if (sCnt <= 4 - sCnt) {
-                    sb.append(curr.comb).append("L".repeat(sCnt));
-                } else {
-                    sb.append(curr.comb).append("R".repeat(4 - sCnt));
-                }
-                break;
-            }
             
             int next = operation(curr.val, 'D');
             if (!isVisited[next]) {
@@ -99,15 +79,26 @@ public class BaekJoon_9019 {
             
             next = operation(curr.val, 'L');
             if (!isVisited[next]) {
-                q.offer(new Node(curr.comb + "L", next));
-                isVisited[next] = true;
+                if (next == M) {
+                    sb.append(curr.comb).append("L");
+                    break;
+                } else {
+                    q.offer(new Node(curr.comb + "L", next));
+                    isVisited[next] = true;
+                }
             }
             
             next = operation(curr.val, 'R');
             if (!isVisited[next]) {
-                q.offer(new Node(curr.comb + "R", next));
-                isVisited[next] = true;
+                if (next == M) {
+                    sb.append(curr.comb).append("R");
+                    break;
+                } else {
+                    q.offer(new Node(curr.comb + "R", next));
+                    isVisited[next] = true;
+                }
             }
+            
         }
         
     }
