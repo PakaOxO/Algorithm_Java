@@ -80,7 +80,10 @@ public class BaekJoon_9019 {
                 if (next == M) {
                     sb.append(curr.comb).append("D");
                     break;
-                } else q.offer(new Node(curr.comb + "D", next));
+                } else {
+                    q.offer(new Node(curr.comb + "D", next));
+                    isVisited[next] = true;
+                }
             }
             
             next = operation(curr.val, 'S');
@@ -88,17 +91,22 @@ public class BaekJoon_9019 {
                 if (next == M) {
                     sb.append(curr.comb).append("S");
                     break;
-                } else q.offer(new Node(curr.comb + "S", next));
+                } else {
+                    q.offer(new Node(curr.comb + "S", next));
+                    isVisited[next] = true;
+                }
             }
             
             next = operation(curr.val, 'L');
             if (!isVisited[next]) {
                 q.offer(new Node(curr.comb + "L", next));
+                isVisited[next] = true;
             }
             
             next = operation(curr.val, 'R');
             if (!isVisited[next]) {
                 q.offer(new Node(curr.comb + "R", next));
+                isVisited[next] = true;
             }
         }
         
