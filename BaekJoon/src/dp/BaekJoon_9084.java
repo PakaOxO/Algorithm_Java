@@ -26,7 +26,7 @@ public class BaekJoon_9084 {
                     if (j > coin[i] && coin[i] > 1 && j % coin[i] == 0) dp[i][j] = Math.max(dp[i][j - coin[i]], dp[i][j - coin[i]] + dp[i - 1][coin[i]]);
                 }
             }
-        }
+        } 
     }
 
     public static void main(String[] args) throws Exception {
