@@ -21,9 +21,14 @@ public class BaekJoon_9084 {
         for (int i=1; i<=N; i++) {
             for (int j=1; j<=M; j++) {
                 dp[i][j] = dp[i - 1][j];
-                if (j >= coin[i]) {
+                if (j % coin[i] == 0) {
                     dp[i][j] += 1;
-                    if (j > coin[i] && coin[i] > 1 && j % coin[i] == 0) dp[i][j] = Math.max(dp[i][j - coin[i]], dp[i][j - coin[i]] + dp[i - 1][coin[i]]);
+                }
+                if (j >= coin[i]) dp[i][j] = Math.max(dp[i][j], Math.max(dp[i - 1][j - coin[i]], dp[i][j - coin[i - 1]]));
+                if (j >= coin[i]) dp[i][j] += dp[i - 1][j - coin[i]] / coin[i];
+                
+                if (j % coin[i] == 0) {
+                    dp[i][j] += dp[i - 1][j - coin[i]];
                 }
             }
         } 
@@ -43,12 +48,13 @@ public class BaekJoon_9084 {
             
             M = Integer.parseInt(br.readLine());
             dp = new int[N + 1][M + 1];
-            br.close();
             
             dp();
             System.out.println(dp[N][M]);
             for (int[] d : dp) System.out.println(Arrays.toString(d));
+            System.out.println();
         }
+        br.close();
     }
 
 }
