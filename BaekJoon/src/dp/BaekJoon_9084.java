@@ -15,27 +15,20 @@ import java.util.*;
 public class BaekJoon_9084 {
     static int N, M;
     static int[] coin;
-    static int[][] dp;
+    static int[] dp;
     
     static void dp() {
+        dp[0] = 1;
         for (int i=1; i<=N; i++) {
-            for (int j=1; j<=M; j++) {
-                dp[i][j] = dp[i - 1][j];
-                if (j % coin[i] == 0) {
-                    dp[i][j] += 1;
-                }
-                if (j >= coin[i]) dp[i][j] = Math.max(dp[i][j], Math.max(dp[i - 1][j - coin[i]], dp[i][j - coin[i - 1]]));
-                if (j >= coin[i]) dp[i][j] += dp[i - 1][j - coin[i]] / coin[i];
-                
-                if (j % coin[i] == 0) {
-                    dp[i][j] += dp[i - 1][j - coin[i]];
-                }
+            for (int j=coin[i]; j<=M; j++) {
+                dp[j] += dp[j - coin[i]];
             }
-        } 
+        }
     }
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
         int T = Integer.parseInt(br.readLine());
         
         for (int tc=1; tc<=T; tc++) {
@@ -47,14 +40,13 @@ public class BaekJoon_9084 {
             }
             
             M = Integer.parseInt(br.readLine());
-            dp = new int[N + 1][M + 1];
+            dp = new int[M + 1];
             
             dp();
-            System.out.println(dp[N][M]);
-            for (int[] d : dp) System.out.println(Arrays.toString(d));
-            System.out.println();
+            sb.append(String.format("%d\n", dp[M]));
         }
         br.close();
+        System.out.print(sb);
     }
 
 }
