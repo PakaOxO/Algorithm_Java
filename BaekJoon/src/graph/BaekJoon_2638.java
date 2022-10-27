@@ -12,7 +12,11 @@ import java.util.StringTokenizer;
  * @author kevin-Arpe
  * 
  * Sketch Idea
- * 	1. 
+ * 	1. 먼저 공기에 접촉된 치즈를 찾기 위해 공기의 위치(0, 0)에서 BFS 탐색으로 2면 이상 접촉된 치즈를 찾아 치즈 큐에 담음
+ *  2. 치즈 큐에 담긴 위치는 녹여야하는 위치이므로 0으로 바꿔준 뒤 큐에서 제거, 이 위치는 이제 공기이므로 다음 공기 BFS 탐색시에 필요하기 때문에 공기 큐에 삽입
+ *  3. 다시 1번으로 돌아가 탐색
+ *  4. 모든 탐색을 진행하면서 공기큐, 치즈큐에 남은 위치가 없다면 모든 프로세스가 종료된 것임. 녹이는 메서드 호출된 회수가 정답이므로 녹일 때마다 answer를 1씩 증가하고
+ *      이를 마지막에 출력
  *
  */
 public class BaekJoon_2638 {
@@ -26,7 +30,7 @@ public class BaekJoon_2638 {
 	}
 	static int N, M, answer;
 	static int[][] board;
-	static boolean[][] isVisited;
+	static int[][] isVisited;
 	static Queue<Pos> aQ, cQ;
 	static int[][] drc = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
 	
@@ -49,15 +53,16 @@ public class BaekJoon_2638 {
 			for (int i=0; i<4; i++) {
 				int nr = curr.r + drc[i][0];
 				int nc = curr.c + drc[i][1];
-				if (nr < 0 || nc < 0 || nr >= N || nc >= M || isVisited[nr][nc]) continue;
+				if (nr < 0 || nc < 0 || nr >= N || nc >= M) continue;
 				
 				if (board[nr][nc] == 0) {
-					isVisited[nr][nc] = true;
+				    if (isVisited[nr][nc] > 0) continue;
+					isVisited[nr][nc] = 1;
 					aQ.offer(new Pos(nr, nc));
 				} else {
-					if (!check(nr, nc)) continue;
-					isVisited[nr][nc] = true;
-					cQ.offer(new Pos(nr, nc));
+				    if (isVisited[nr][nc] == 2) continue;
+					isVisited[nr][nc]++;
+					if (isVisited[nr][nc] == 2) cQ.offer(new Pos(nr, nc));
 				}
 			}
 		}
@@ -91,14 +96,12 @@ public class BaekJoon_2638 {
 		cQ = new LinkedList<>();
 		
 		aQ.offer(new Pos(0, 0));
-		isVisited = new boolean[N][M];
-		isVisited[0][0] = true;
+		isVisited = new int[N][M];
+		isVisited[0][0] = 1;
 		
 		while (true) {
 			if (!aQ.isEmpty()) airBfs();	
 			if (!cQ.isEmpty()) melt();
-			for (int[] b : board) System.out.println(Arrays.toString(b));
-			System.out.println();
 			
 			if (aQ.isEmpty() && cQ.isEmpty()) break;
 		}
