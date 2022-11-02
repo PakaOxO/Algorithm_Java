@@ -20,7 +20,7 @@ public class BaekJoon_2263 {
     
     static void getPreOrder() {
         
-    }
+    } 
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
