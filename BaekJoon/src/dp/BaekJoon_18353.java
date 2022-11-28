@@ -31,17 +31,19 @@ public class BaekJoon_18353 {
         dp[0] = 0;
         max = 0;
         for (int i=1; i<N; i++) {
-            int maxIdx = 0;
+            int idx = 0;
+            boolean flag = false;
             for (int j=0; j<i; j++) {
-                if (arr[j] > arr[i] && dp[j] >= dp[i]) {
-                    maxIdx = j;
-                    dp[i] = dp[j] + 1;
+                if (arr[j] > arr[i] && dp[j] >= dp[idx]) {
+                    idx = j;
+                    flag = true;
                 }
             }
-            dp[i] = dp[maxIdx] + 1;
-            max = Math.max(max, dp[i]);
+            if (flag) {                
+                dp[i] = dp[idx] + 1;
+                max = Math.max(max, dp[i]);
+            }
         }
-        System.out.println(Arrays.toString(dp));
         System.out.println(N - max - 1);
     }
 
