@@ -21,26 +21,33 @@ public class BaekJoon_11722 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         
-        arr = new int[N];
-        dp = new int[N];
+        arr = new int[N + 1];
+        dp = new int[N + 1];
         StringTokenizer st = new StringTokenizer(br.readLine());
-        for (int i=0; i<N; i++) {
+        for (int i=1; i<N+1; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
         
         int answer = 1;
-        for (int i=1; i<N; i++) {
+        arr[0] = 1001;
+        dp[0] = 0;
+        for (int i=1; i<=N; i++) {
             int idx = 0;
+            boolean flag = false;
             for (int j=0; j<i; j++) {
                 if (arr[j] > arr[i] && dp[j] > dp[idx]) {
                     idx = j;
+                    flag = true;
                 }
             }
-            dp[i] = dp[idx] + 1;
+            if (flag) {
+                dp[i] = dp[idx] + 1;
+            } else {
+                dp[i] = 1;
+            }
             answer = Math.max(answer, dp[i]);
         }
         
-        System.out.println(Arrays.toString(dp));
         System.out.println(answer);
     }
 
