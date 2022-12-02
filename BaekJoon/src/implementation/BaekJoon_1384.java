@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 // 메시지
 public class BaekJoon_1384 {
 	public static String[][] messages;
-
+	
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder answer = new StringBuilder();
