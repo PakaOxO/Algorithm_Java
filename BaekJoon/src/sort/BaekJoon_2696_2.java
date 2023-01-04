@@ -23,24 +23,19 @@ public class BaekJoon_2696_2 {
         for (int tc=0; tc<T; tc++) {
             N = Integer.parseInt(br.readLine());
             sb.append(N / 2 + 1).append("\n");
-            PriorityQueue<Integer> pq1 = new PriorityQueue<>(new Comparator<Integer>() {
-                @Override
-                public int compare(Integer o1, Integer o2) {
-                    return o2 - o1;
-                }
-            });
+            PriorityQueue<Integer> pq1 = new PriorityQueue<>((o1, o2) -> o2 - o1);
             PriorityQueue<Integer> pq2 = new PriorityQueue<>();
             for (int i=0; i<N; i++) {
-                if (N % 10 == 0) st = new StringTokenizer(br.readLine());
+                if (i % 10 == 0) st = new StringTokenizer(br.readLine());
                 pq2.offer(Integer.parseInt(st.nextToken()));
-                if (N % 2 == 0) {
-                    if (pq1.size() > 0 && pq2.peek() < pq1.peek()) {
-                        pq2.offer(pq1.poll());
-                        pq1.offer(pq2.poll());
-                    }
-                } 
+                pq1.offer(pq2.poll());
+                if (i % 2 == 0) {
+                    if (i > 0 && i % 20 == 0) sb.append("\n");
+                    sb.append(pq1.peek()).append(" ");
+                    pq2.offer(pq1.poll());
+                }
             }
-            
+            sb.append("\n");
         }
         System.out.println(sb.toString().trim());
     }
