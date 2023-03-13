@@ -1,5 +1,6 @@
 function solution(s) {
   const dic = {
+    ze: [3, 0],
     on: [3, 1],
     tw: [3, 2],
     th: [5, 3],
@@ -18,7 +19,7 @@ function solution(s) {
   for (let i = 0; i < len; i++) {
     const char = s.charAt(i);
     const code = s.charCodeAt(i);
-    if (code >= 49 && code <= 57) {
+    if (code >= 48 && code <= 57) {
       answer = answer * 10 + char * 1;
     } else {
       key += char;
