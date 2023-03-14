@@ -1,6 +1,6 @@
 function solution(s) {
   const dic = {
-    ze: [3, 0],
+    ze: [4, 0],
     on: [3, 1],
     tw: [3, 2],
     th: [5, 3],
