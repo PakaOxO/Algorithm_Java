@@ -1,32 +1,49 @@
 function solution(babbling) {
-  const check = (str1, str2, pointer) => {
-    const len1 = str1.length;
-    const len2 = str2.length;
-    if (len1 - pointer < len2) return false;
-    for (let i = 0; i < 4; i++) {
-      let flag = true;
-      for (let j = 0; j < len2; j++) {
-        if (str1[pointer + j] !== str2[j]) {
-          flag = false;
-          break;
+  const proun = ["aya", "ye", "woo", "ma"];
+  const pLen = proun.length;
+  const len = babbling.length;
+
+  const check = (str) => {
+    const strLen = str.length;
+    let prev = "";
+    let pointer = 0;
+    while (pointer < strLen) {
+      let hasProun = false;
+      loop: for (const p of proun) {
+        const prounLen = p.length;
+        if (strLen - pointer < prounLen) continue;
+        let flag = true;
+        for (let idx = 0; idx < prounLen; idx++) {
+          if (str[pointer + idx] !== p[idx]) {
+            flag = false;
+            break;
+          }
+        }
+
+        if (flag) {
+          if (p === prev) {
+            return false;
+          }
+          pointer += prounLen;
+          prev = p;
+          hasProun = true;
+          break loop;
         }
       }
-      if (flag) {
-        return true;
-      }
+
+      if (!hasProun) return false;
     }
-    return false;
+    return true;
   };
 
-  const proun = ["aya", "ye", "woo", "ma"];
-  const len = babbling.length;
-  const pLen = proun.length;
   let answer = 0;
-  let prevProun = -1;
-  while (pointer < len) {
-    for (let i = 0; i < pLen; i++) {}
+  for (let i = 0; i < len; i++) {
+    if (!check(babbling[i])) continue;
+    answer++;
   }
+
   return answer;
 }
 
 console.log(solution(["aya", "yee", "u", "maa"]));
+console.log(solution(["ayaye", "uuu", "yeye", "yemawoo", "ayaayaa"]));
