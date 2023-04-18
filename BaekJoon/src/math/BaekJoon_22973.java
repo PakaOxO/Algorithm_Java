@@ -1,4 +1,4 @@
-package dp;
+package math;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
