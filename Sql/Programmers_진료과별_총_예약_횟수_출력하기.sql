@@ -1,0 +1,18 @@
+-- 답안 1 : 취소 여부는 고려 안해도 됐음...
+SELECT A.MCDP_CD AS '진료과 코드', A.CNT AS '5월예약건수'
+  FROM (SELECT MCDP_CD, COUNT(APNT_NO) AS CNT
+            FROM APPOINTMENT
+            WHERE MONTH(APNT_YMD) = 5
+            AND YEAR(APNT_YMD) = 2022
+            -- AND APNT_CNCL_YN = 'N'
+            GROUP BY MCDP_CD) A
+  ORDER BY A.CNT ASC, A.MCDP_CD ASC;
+
+
+-- 답안 2
+SELECT MCDP_CD AS '진료과 코드', COUNT(APNT_NO) AS '5월예약건수'
+  FROM APPOINTMENT
+    WHERE MONTH(APNT_YMD) = 5
+    AND YEAR(APNT_YMD) = 2022
+    GROUP BY MCDP_CD
+  ORDER BY COUNT(APNT_NO), MCDP_CD;
