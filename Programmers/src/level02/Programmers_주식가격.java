@@ -18,21 +18,14 @@ class Solution8 {
 	public int[] solution(int[] prices) {
 		int len = prices.length;
 		int[] answer = new int[len];
-		Stack<int[]> stack = new Stack<>();
 		
-		for (int i=len - 1; i>=0; i--) {
-			while (stack.size() > 0 && prices[i] <= stack.peek()[0]) {
-				stack.pop();
+		for (int i=0; i<len; i++) {
+			int count = 0;
+			for (int j=i+1; j<len; j++) {
+				count++;
+				if (prices[j] < prices[i]) break;
 			}
-			if (stack.size() < 1 || prices[i] < stack.peek()[0]) {				
-				stack.push(new int[] { prices[i], i });
-			}
-			
-			if (stack.peek()[1] == i) {
-				answer[i] = len - i - 1;
-			} else {				
-				answer[i] = stack.peek()[1] - i;
-			}
+			answer[i] = count;
 		}
 		
 		return answer;
