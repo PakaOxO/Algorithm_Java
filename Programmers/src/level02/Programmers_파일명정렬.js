@@ -32,7 +32,6 @@ const solution = (files) => {
   arr.sort((f1, f2) => {
     const [h1, h2] = [f1.HEAD.toUpperCase(), f2.HEAD.toUpperCase()];
     if (h1 !== h2) {
-      return h1 > h2;
       if (h1 < h2) return -1;
       return 1;
     }
