@@ -5,21 +5,21 @@ const solution = () => {
   const [N, M, K] = input[0].split(" ").map((item) => +item);
   const candies = input[1].split(" ").map((item) => +item);
 
-  const dp = new Array(M + 1).fill(0);
   let answer = 0;
+  const dp = [];
+  dp.push(new Array(K).fill(0));
+
+  const bfs = (box, res) => {
+    return 0;
+  };
 
   for (let i = 1; i <= M; i++) {
-    for (let j = 0; j < i; j++) {
-      for (let k = 0; k < N; k++) {
-        const next = dp[j] + candies[k];
-        if (next % K > 0) continue;
-        dp[i] = Math.max(dp[i], next);
-        answer = Math.max(dp[i], answer);
-      }
+    dp[i] = [];
+    for (let j = 0; j < K; j++) {
+      dp[i].push(bfs(i, j));
     }
   }
 
-  console.log(dp);
   return answer;
 };
 
