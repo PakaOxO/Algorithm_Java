@@ -17,7 +17,7 @@ const solution = () => {
     const sum = arr.reduce((prev, acc) => {
       if (acc > mid) return prev + mid;
       return prev + acc;
-    });
+    }, 0);
 
     if (sum > max) {
       right = mid - 1;
