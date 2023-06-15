@@ -9,10 +9,9 @@ const solution = () => {
     .sort((a, b) => a - b);
   const max = +input[2];
 
-  let [left, right] = [arr[0], arr[arr.length - 1]];
+  let [left, right] = [0, arr[arr.length - 1]];
   let answer = right;
   while (left <= right) {
-    if (left === right) break;
     const mid = Math.floor((left + right) / 2);
 
     const sum = arr.reduce((prev, acc) => {
@@ -23,9 +22,9 @@ const solution = () => {
     if (sum > max) {
       right = mid - 1;
     } else {
+      answer = mid;
       left = mid + 1;
     }
-    answer = right;
   }
   return answer;
 };
