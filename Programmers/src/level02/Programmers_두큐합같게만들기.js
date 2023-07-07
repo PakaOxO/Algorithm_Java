@@ -34,7 +34,7 @@ const solution = (q1, q2) => {
         const num = circle[s2];
         s2 = (s2 + 1) % size;
         acc2 -= num;
-        acc1 += num;\
+        acc1 += num;
       }
       answer++;
       if (answer >= size * 3 || s1 === s2) {
