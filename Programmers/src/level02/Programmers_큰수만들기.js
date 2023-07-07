@@ -20,6 +20,7 @@ const solution = (number, k) => {
       if (+number.charAt(j) > max) {
         [max, idx] = [+number.charAt(j), j];
       }
+      if (max === 9) break;
     }
     answer += max;
     k -= idx - i;
