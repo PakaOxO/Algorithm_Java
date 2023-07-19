@@ -39,6 +39,7 @@ const solution = (park, routes) => {
     for (let j = 0; j < size; j++) {
       next[0] += unitPath[dir][0];
       next[1] += unitPath[dir][1];
+      // 이동 위치에 장애물이 있거나, 맵 밖인 경우
       if (
         next[0] < 0 ||
         next[1] < 0 ||
