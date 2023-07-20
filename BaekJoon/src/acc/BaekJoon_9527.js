@@ -11,30 +11,38 @@ const solution = () => {
     .toString()
     .split(" ")
     .map((item) => +item);
-
-  let base = 1;
-  while (base < B) {
-    base *= 2;
+  const acc = Array.from({ length: 16 }, () => 0);
+  acc[0] = 1;
+  for (let i = 1; i < 16; i++) {
+    acc[i] = acc[i - 1] + Math.pow(2, i);
   }
-  base /= 2;
+  console.log(acc);
 
-  console.log(A, B, base);
-  count(A, B, base);
+  console.log(count(B), count(A));
 
   return answer;
 
-  function count(a, b, base) {
-    console.log(a, b, base);
-    if (b <= 0) return;
-    if (base >= a) {
-      answer += b - base + 1;
-      count(0, b - base, base / 2);
-      count(0, a, base / 2);
-    } else {
-      answer += b - a + 1;
-      count(a - base, b - base, base / 2);
+  function count(n) {
+    if (n <= 1) {
+      return n < 0 ? 0 : n;
     }
+
+    let cnt = -1;
+    let dummy = n;
+    while (dummy > 1) {
+      dummy = ~~(dummy / 2);
+      cnt++;
+    }
+    console.log(cnt);
+    return acc[cnt] + count(n - Math.pow(2, cnt));
   }
 };
 
 console.log(solution());
+// 110
+// 101
+// 100
+// 11;
+// 10;
+// 01;
+// 00;
