@@ -74,15 +74,7 @@ const solution = () => {
 
     for (let i = 0; i < drc.length; i++) {
       const [nr, nc] = [r + drc[i][0], c + drc[i][1]];
-      if (
-        nr < 0 ||
-        nc < 0 ||
-        nr >= N ||
-        nc >= M ||
-        map[nr][nc] === "." ||
-        v[nr][nc]
-      )
-        continue;
+      if (nr < 0 || nc < 0 || nr >= N || nc >= M || map[nr][nc] === "." || v[nr][nc]) continue;
 
       v[nr][nc] = true;
       findStart(nr, nc, i);
@@ -93,24 +85,8 @@ const solution = () => {
     const f1 = [r + drc[dir][0], c + drc[dir][1]];
     const f2 = [f1[0] + drc[dir][0], f1[1] + drc[dir][1]];
     let flag = false;
-    if (
-      f1[0] < 0 ||
-      f1[1] < 0 ||
-      f1[0] >= N ||
-      f1[1] >= M ||
-      map[f1[0]][f1[1]] === "." ||
-      v[f1[0]][f1[1]]
-    )
-      flag = true;
-    if (
-      f2[0] < 0 ||
-      f2[1] < 0 ||
-      f2[0] >= N ||
-      f2[1] >= M ||
-      map[f2[0]][f2[1]] === "." ||
-      v[f2[0]][f2[1]]
-    )
-      flag = true;
+    if (f1[0] < 0 || f1[1] < 0 || f1[0] >= N || f1[1] >= M || map[f1[0]][f1[1]] === "." || v[f1[0]][f1[1]]) flag = true;
+    if (f2[0] < 0 || f2[1] < 0 || f2[0] >= N || f2[1] >= M || map[f2[0]][f2[1]] === "." || v[f2[0]][f2[1]]) flag = true;
 
     if (!flag) {
       v[f1[0]][f1[1]] = true;
@@ -130,25 +106,11 @@ const solution = () => {
     const dir2 = (dir + 1) % 4;
 
     const [nr1, nc1] = [r + drc[dir1][0], c + drc[dir1][1]];
-    if (
-      nr1 >= 0 &&
-      nr1 < N &&
-      nc1 >= 0 &&
-      nc1 < M &&
-      map[nr1][nc1] === "#" &&
-      !v[nr1][nc1]
-    ) {
+    if (nr1 >= 0 && nr1 < N && nc1 >= 0 && nc1 < M && map[nr1][nc1] === "#" && !v[nr1][nc1]) {
       return [dir1, "L"];
     }
     const [nr2, nc2] = [r + drc[dir2][0], c + drc[dir2][1]];
-    if (
-      nr2 >= 0 &&
-      nr2 < N &&
-      nc2 >= 0 &&
-      nc2 < M &&
-      map[nr2][nc2] === "#" &&
-      !v[nr2][nc2]
-    ) {
+    if (nr2 >= 0 && nr2 < N && nc2 >= 0 && nc2 < M && map[nr2][nc2] === "#" && !v[nr2][nc2]) {
       return [dir2, "R"];
     }
     return [-1, "X"];
