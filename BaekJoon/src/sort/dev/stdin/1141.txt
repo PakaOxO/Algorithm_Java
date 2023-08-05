@@ -1,0 +1,8 @@
+7
+a
+b
+a
+cba
+cbc
+cbb
+ccc
