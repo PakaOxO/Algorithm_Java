@@ -1,51 +1,43 @@
 /**
  * Programmers_조이스틱
  *    1. 문제 분류 : 그리디, 구현
- *    2. 접근 방법
- *      -
+ *    2. 접근 방법(**풀이 실패)
+ *      - 결국 알파벳 변환 횟수는 고정임 -> 최소 이동거리를 구해야하는 문제
+ *      - 내 위치 기준 우측에 'A'의 묶음(1개 이상)이 발견되면
+ *        -> 오른쪽으로 되돌아가는 길이(내 인덱스 * 2) + 우측 끝에서 A의 묶음이 끝날 때까지 길이
+ *        -> 왼쪽으로 갔다 되돌아가는 길이(우측 A의 묶음 길이를 제외한 나머지 길이) + 내 위치에서 A의 묶음을 만날때까지 길이
+ *
  */
 const solution = (name) => {
   /* 변수 초기화 */
   const len = name.length;
-  let res = len;
-  const diff = Array.from({ length: len }, (_, idx) => {
-    const code = name.charCodeAt(idx) - 65;
-    const d = Math.min(code, (26 - code) % 26);
-    if (d === 0) res--;
-    return d;
-  });
+  let answer = 0;
+  let move = len - 1; // 최대 이동 거리는 결국 오른쪽으로 쭉 이동하는 것
 
   /* 메인 로직 */
+  for (let i = 0; i < len; i++) {
+    // 만약 바꿔야하는 알파벳이 있다면 최소의 조작으로 변환
+    answer += Math.min(name.charCodeAt(i) - "A".charCodeAt(0), "Z".charCodeAt(0) - name.charCodeAt(i) + 1);
+
+    // 현재 내 위치 기준 우측 'A'의 개수 카운트
+    let j = i + 1;
+    let aCount = 0;
+    while (j < len && name.charAt(j) === "A") {
+      aCount++;
+      j++;
+    }
+
+    move = Math.min(move, i * 2 + len - i - 1 - aCount);
+    move = Math.min(move, (len - (i + 1 + aCount)) * 2 + i);
+  }
 
   /* 정답 반환 */
-  return dfs(0, res);
-
-  /* 왼쪽으로 이동 */
-  function dfs(pos, res) {
-    let sum = 0;
-    if (res === 0) {
-      return sum;
-    }
-
-    const val = diff[pos];
-    sum += val;
-    if (res > 1) {
-      const [left, right] = [(pos - 1 + len) % len, (pos + 1) % len];
-      diff[pos] = 0;
-      const s1 = dfs(left, res - 1) + 1;
-      const s2 = dfs(right, res - 1) + 1;
-      diff[pos] = val;
-      sum += Math.min(s1, s2);
-    }
-
-    console.log(pos, sum);
-    return sum;
-  }
+  return answer + move;
 };
 
 console.log(solution("JAZ"));
-// console.log(solution("JEROEN"));
-// console.log(solution("JAN"));
-// console.log(solution("AABAA"));
-// console.log(solution("AABABBBBB"));
-
+console.log(solution("JEROEN"));
+console.log(solution("JAN"));
+console.log(solution("AABAA"));
+console.log(solution("AABABBBBB"));
+// console.log(solution("BBBBBBBBBBBBBBBBBBBB"));
