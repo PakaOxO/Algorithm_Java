@@ -12,31 +12,35 @@ const solution = (users, emoticons) => {
   /* 변수 초기화 */
   const [uCount, eCount] = [users.length, emoticons.length];
   const answer = [0, 0];
-  let [minDiscount, maxDiscount] = [40, 1];
   const comb = Array.from({ length: eCount }, () => 0);
-  const v = Array.from({ length: uCount }, () => false);
   const prices = Array.from({ length: uCount }, () => 0);
 
   /* 메인 로직 */
-  users.sort((a, b) => {
-    if (a[0] === b[0]) return a[1] - b[1];
-    return a[0] - b[0];
-  });
-  emoticons.sort((a, b) => b[0] - a[0]);
-
-  // 최대, 최소 할인율 범위 갱신
-  users.forEach((user) => {
-    minDiscount = Math.min(minDiscount, user[0]);
-    maxDiscount = Math.max(maxDiscount, user[0]);
-  });
-
   combination(0, 0, 0);
 
+  /* 정답 반환 */
   return answer;
 
   /* 각 이모티콘 할인 조합 찾기 */
-  function combination(depth, ePlus, totalPrice) {
+  function combination(depth) {
     if (depth === eCount) {
+      let ePlus = 0;
+      let totalPrice = 0;
+      prices.fill(0);
+
+      for (let i = 0; i < uCount; i++) {
+        for (let j = 0; j < eCount; j++) {
+          if (comb[j] < users[i][0]) continue;
+          prices[i] += (emoticons[j] * (100 - comb[j])) / 100;
+        }
+
+        if (prices[i] >= users[i][1]) {
+          ePlus++;
+        } else {
+          totalPrice += prices[i];
+        }
+      }
+
       if (ePlus < answer[0]) return;
 
       if (ePlus === answer[0]) {
@@ -45,48 +49,12 @@ const solution = (users, emoticons) => {
         answer[1] = totalPrice;
       }
       answer[0] = Math.max(answer[0], ePlus);
-
-      // if (ePlus === 4) {
-      //   console.log(prices, users, totalPrice);
-      // }
-      if (totalPrice === 16614 && ePlus === 4) {
-        console.log("-------------");
-        console.log(ePlus, totalPrice, prices, users, comb);
-      }
       return;
     }
 
-    for (let discount = minDiscount; discount <= maxDiscount; discount++) {
-      let sum = 0;
-      let newEPlus = 0;
-      const discountedPrice = (emoticons[depth] * (100 - discount)) / 100;
-
-      for (let i = 0; i < uCount; i++) {
-        if (discount < users[i][0]) continue;
-
-        if (prices[i] + discountedPrice >= users[i][1]) {
-          if (!v[i]) {
-            newEPlus++;
-            sum -= prices[i];
-          }
-          v[i] = true;
-        } else {
-          sum += discountedPrice;
-        }
-        prices[i] += discountedPrice;
-      }
-
+    for (let discount = 40; discount >= 10; discount -= 10) {
       comb[depth] = discount;
-      combination(depth + 1, ePlus + newEPlus, totalPrice + sum);
-
-      for (let i = 0; i < uCount; i++) {
-        if (discount < users[i][0]) continue;
-
-        prices[i] -= discountedPrice;
-        if (prices[i] < users[i][1]) {
-          v[i] = false;
-        }
-      }
+      combination(depth + 1);
     }
   }
 };
@@ -131,3 +99,4 @@ console.log(
 //     [3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]
 //   )
 // );
+
