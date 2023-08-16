@@ -10,6 +10,7 @@
  *        -> 둘다 이긴 경우
  */
 const solution = (board) => {
+  /* 변수 초기화 */
   let answer = 1;
   let [oCount, xCount] = [0, 0];
   let [oWinCount, xWinCount] = [0, 0];
