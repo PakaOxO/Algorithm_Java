@@ -1,6 +1,6 @@
 package level02;
 
-class Solution2 {
+class Solution_피로도 {
 	int answer = 0;
 	int len = 0;
 	boolean[] isVisited;
@@ -28,7 +28,7 @@ class Solution2 {
 
 public class 피로도 {
 	public static void main(String[] args) throws Exception {
-		Solution2 s = new Solution2();
+		Solution_피로도 s = new Solution_피로도();
 		System.out.println(s.solution(80, new int[][] {{80,20},{50,40},{30,10}}));
 	}
 

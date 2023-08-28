@@ -2,7 +2,7 @@ package level02;
 
 import java.util.Arrays;
 
-class Solution {
+class Solution_전화번호목록 {
 	private boolean check(String s1, String s2) {
 		int len = s1.length();
     	for (int j=0; j<len; j++) {        		
@@ -23,7 +23,7 @@ class Solution {
 
 public class 전화번호_목록 {
 	public static void main(String[] args) throws Exception {
-		Solution s = new Solution();
+		Solution_전화번호목록 s = new Solution_전화번호목록();
 		s.solution(new String[] {"119", "97674223", "1195524421"});
 		s.solution(new String[] {"123","456","789"});
 		s.solution(new String[] {"12","123","1235","567","88"});
