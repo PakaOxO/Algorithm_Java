@@ -3,6 +3,7 @@
  *    1. 문제 분류 : 그리디, MST
  *    2. 접근 방법
  *      - 프림 알고리즘을 사용해 모든 정점들을 이을 때까지 반복
+ *      - 크루스칼 알고리즘을 사용한 풀이도 추가
  */
 const solution = (n, costs) => {
   /* 최소 힙 구현 */
@@ -82,19 +83,21 @@ const solution = (n, costs) => {
   /* 변수 초기화 */
   let answer = 0;
   const adjList = Array.from({ length: n }, () => []);
+  const parent = Array.from({ length: n }, (_, idx) => idx);
 
   /* 메인 로직 */
-  for (const [from, to, cost] of costs) {
-    adjList[from].push([to, cost]);
-    adjList[to].push([from, cost]);
-  }
+  // for (const [from, to, cost] of costs) {
+  //   adjList[from].push([to, cost]);
+  //   adjList[to].push([from, cost]);
+  // }
 
-  answer = prim(0);
+  // answer = prim(0);
+  answer = kruskal();
 
   /* 정답 반환 */
   return answer;
 
-  /* bfs */
+  /* 프림 */
   function prim(start) {
     const queue = new Heap();
     const v = Array.from({ length: n }, () => false);
@@ -117,6 +120,42 @@ const solution = (n, costs) => {
     }
 
     return sum;
+  }
+
+  /* 크루스칼 */
+  function kruskal() {
+    costs.sort((a, b) => a[2] - b[2]);
+
+    let count = 0;
+    let dist = 0;
+
+    for (let i = 0; i < costs.length && count < n - 1; i++) {
+      if (union(costs[i][0], costs[i][1])) {
+        dist += costs[i][2];
+        count++;
+      }
+    }
+
+    return dist;
+  }
+
+  /* Union-Find */
+  function find(x) {
+    if (parent[x] === x) return x;
+    parent[x] = find(parent[x]);
+    return parent[x];
+  }
+
+  function union(x, y) {
+    const [px, py] = [find(x), find(y)];
+    if (px === py) return false;
+
+    if (px < py) {
+      parent[py] = px;
+    } else {
+      parent[px] = py;
+    }
+    return true;
   }
 };
 
