@@ -5,73 +5,50 @@
 const solution = () => {
   /* 변수 관리 */
   const input = require("fs").readFileSync("./dev/stdin/22251.txt").toString().split("\n");
-  const on = [
-    [true, true, true, true, true, true, false],
-    [false, true, true, false, false, false, false],
-    [true, true, false, true, true, false, true],
-    [true, true, true, true, false, false, true],
-    [false, true, true, false, false, true, true],
-    [true, false, true, true, false, true, true],
-    [true, false, true, true, true, true, true],
-    [true, true, true, false, false, false, false],
-    [true, true, true, true, true, true, true],
-    [true, true, true, true, false, true, true],
-  ];
-  const COUNT = 7;
   const [N, K, P, X] = input[0].split(" ").map((item) => +item);
-  let strX = "" + X;
-  const arrX = [];
-  const set = new Set();
+  const SIZE = 10;
+  const bit = [
+    "1111110",
+    "0110000",
+    "1101101",
+    "1111001",
+    "0110011",
+    "1011011",
+    "1011111",
+    "1110000",
+    "1111111",
+    "1111011",
+  ];
+  const costs = Array.from({ length: SIZE }, () => Array.from({ length: SIZE }, () => 0));
+  let answer = 0;
 
-  /* 메인 로젝 */
-  strX = strX.padStart(K, "0");
-  for (let i = 0; i < K; i++) {
-    arrX.push(+strX.charAt(i));
+  /* 메인 로직 */
+  for (let i = 0; i < SIZE; i++) {
+    for (let j = i + 1; j < SIZE; j++) {
+      const binary = (parseInt(bit[i], 2) ^ parseInt(bit[j], 2)).toString(2);
+      const cost = binary.match(/1/g)?.length || 0;
+      costs[i][j] = cost;
+      costs[j][i] = cost;
+    }
   }
-  dfs(0, P, 0);
+
+  for (let i = 1; i <= N; i++) {
+    let cost = 0;
+    let [a, b] = [X, i];
+    for (let j = 0; j < K; j++) {
+      cost += costs[a % 10][b % 10];
+      a = Math.floor(a / 10);
+      b = Math.floor(b / 10);
+    }
+
+    if (cost > 0 && cost <= P) {
+      answer++;
+    }
+  }
 
   /* 정답 반환 */
-  return set.size;
-
-  /**
-   * 위치(pos)의 숫자(A)를 다른 숫자(B)로 전환하는데 필요한 반전 개수
-   */
-  function convert(from, to) {
-    let count = 0;
-    for (let i = 0; i < COUNT; i++) {
-      if (on[from][i] !== on[to][i]) count++;
-    }
-    return count;
-  }
-
-  /**
-   * 특정 위치(pos)를 반전시키기 위해 남은 횟수(res)
-   */
-  function dfs(start, res, v) {
-    if (start === K && v > 0) {
-      const num = +arrX.join("");
-
-      if (num > 0 && num <= N && num !== X) {
-        set.add(num);
-      }
-    }
-
-    for (let i = start; i < K; i++) {
-      dfs(i + 1, res, v);
-
-      const num = arrX[i];
-      for (let j = 0; j < 10; j++) {
-        if (j == num) continue;
-
-        const count = convert(num, j);
-        if (count > res) continue;
-
-        arrX[i] = j;
-        dfs(i + 1, res - count, v + 1);
-        arrX[i] = num;
-      }
-    }
-  }
+  return answer;
 };
 
 console.log(solution());
+
