@@ -16,12 +16,14 @@ const solution = () => {
     let size = 0;
 
     const offer = (n) => {
-      if (front === null) {
+      if (size === 0) {
         front = n;
+        end = n;
+      } else {
+        end.rear = n;
         end = n;
       }
 
-      end.rear = n;
       size++;
     };
 
@@ -30,7 +32,6 @@ const solution = () => {
       const r = front;
       front = r.rear;
       size--;
-      if (size === 0) rear = null;
       return r;
     };
 
@@ -55,42 +56,44 @@ const solution = () => {
 
   for (let i = 1; i <= N; i++) {
     map.push(input[i].split('').map(Number));
-    v.push(Array.from({ length: M }, () => Array.from({ length: K + 1 }, () => false)));
+    v.push(Array.from({ length: M }, () => K + 1));
   }
 
   /* 메인 로직 */
-  v[0][0].fill(true);
-  bfs();
+  v[0][0] = 0;
+  answer = bfs();
 
   /* 정답 반환 */
-  answer = answer === INF ? -1 : answer;
   return answer;
 
   // bfs
   function bfs() {
     const q = Queue();
-    q.offer(Node(0, 0, 1, K));
+    q.offer(Node(0, 0, 1, 0));
 
     while (q.getSize() > 0) {
-      const { r, c, d, x } = q.poll();
+      const { r, c, d, k } = q.poll();
+      if (r === N - 1 && c === M - 1) return d;
 
       for (const [dr, dc] of drc) {
         const [nr, nc] = [r + dr, c + dc];
         if (nr < 0 || nc < 0 || nr >= N || nc >= M) continue;
-        if (v[nr][nc][x]) continue;
-        if (map[nr][nc] && x === 0) continue;
-        if (nr === N - 1 && nc === M - 1) {
-          answer = d + 1;
-          return;
+        if (map[nr][nc]) {
+          if (v[nr][nc] > k + 1) {
+            v[nr][nc] = k + 1;
+            q.offer(Node(nr, nc, d + 1, k + 1));
+          }
+        } else {
+          if (v[nr][nc] > k) {
+            v[nr][nc] = k;
+            q.offer(Node(nr, nc, d + 1, k));
+          }
         }
-
-        const nx = map[nr][nc] ? x - 1 : x;
-        v[nr][nc][nx] = true;
-        q.offer(Node(nr, nc, d + 1, nx));
       }
     }
+
+    return -1;
   }
 };
 
 console.log(solution());
-
